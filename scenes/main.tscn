@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bt5r4c0tvylrt"]
+
+[node name="Main" type="Node2D" unique_id=1851467715]
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=181801213]
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=1646891878]
