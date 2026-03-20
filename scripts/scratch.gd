@@ -32,9 +32,13 @@ func _process(delta: float) -> void:
 		anim_sprite.flip_h = false 
 		facing_right = false
 
-	# Tilt the sprite based on velocity
+# Tilt the sprite based on whether it's facing right
 	if velocity.length() > 0.1:
 		var tilt_angle = velocity.angle()
+		# Invert rotation if facing left
+		if not facing_right:
+			rotation = lerp_angle(-rotation, -tilt_angle, -rotation_speed * delta)
+		# Clamp tilt to avoid excessive rotation
 		tilt_angle = clamp(tilt_angle, deg_to_rad(-max_tilt_angle), deg_to_rad(max_tilt_angle))
 		rotation = lerp_angle(rotation, tilt_angle, rotation_speed * delta)
 	else:

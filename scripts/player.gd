@@ -1,49 +1,61 @@
 extends CharacterBody2D
 
-@export var speed: float = 280
+@export var speed: float = 400 #50
 @export var rotation_speed: float = 5.0
 @export var max_tilt_angle: float = 45.0  # Max tilt in degrees
 
-var anim_sprite: AnimatedSprite2D
-var facing_right: bool = true
+enum {IDLE, SWIM, BITE, SWIMUP, SWIMDOWN}
+var state: int = IDLE
 
 func _ready() -> void:
-	anim_sprite = $AnimatedSprite2D
+	change_state(IDLE)
 
 func _process(delta: float) -> void:
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position)
 	var distance = direction.length()
-
+	
 	# Move towards cursor if far enough
 	if distance > 5:
 		direction = direction.normalized()
 		velocity = direction * speed
+		if velocity.y < -150:
+			change_state(SWIMUP)
+		elif velocity.y > 150:
+			change_state(SWIMDOWN)
+		else:
+			change_state(SWIM)
 	else:
 		velocity = Vector2.ZERO
-
+	
+	if velocity.x == 0:
+		change_state(IDLE )
+		
+	#debugging
+	print(velocity.y)
+	
 	move_and_slide()
 
-	# Horizontal flip using flip_h
-	if velocity.x > 0.1:
-		anim_sprite.flip_h = true
-		facing_right = true
-	elif velocity.x < -0.1:
-		anim_sprite.flip_h = false 
-		facing_right = false
-
-# Tilt the sprite based on whether it's facing right
-	if velocity.length() > 0.1:
-		var tilt_angle = velocity.angle()
-		# Invert rotation if facing left
-		if not facing_right:
-			rotation = lerp_angle(-rotation, -tilt_angle, -rotation_speed * delta)
-		# Clamp tilt to avoid excessive rotation
-		tilt_angle = clamp(tilt_angle, deg_to_rad(-max_tilt_angle), deg_to_rad(max_tilt_angle))
-		rotation = lerp_angle(rotation, tilt_angle, rotation_speed * delta)
-	else:
-		rotation = lerp_angle(rotation, 0, rotation_speed * delta)
-
-	# Animation
-	anim_sprite.animation = "idle" if velocity.length() < 0.1 else "swim"
-	anim_sprite.play()
+func change_state(new_state: int) -> void:
+	state = new_state
+	match state:
+		IDLE:
+			rotation = 0
+			$AnimatedSprite2D.play('idle')
+		SWIM:
+			$AnimatedSprite2D.play('swim')
+			flip_check()
+		SWIMUP:
+			$AnimatedSprite2D.play('swim-up')
+			flip_check()
+		SWIMDOWN:
+			$AnimatedSprite2D.play('swim-down')
+			flip_check()
+				
+func flip_check():
+	if velocity.x < -0.1:
+		$AnimatedSprite2D.flip_h = false
+	elif velocity.x > 0.1:
+		$AnimatedSprite2D.flip_h = true
+	
+	
