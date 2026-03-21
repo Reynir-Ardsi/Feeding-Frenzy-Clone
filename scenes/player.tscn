@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cn7tvl05rram1" path="res://assets/FishieAnimations/Animations/Normal Actions/normaltiltupchomp.png" id="4_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://elsns8v6u10c" path="res://assets/FishieAnimations/Animations/Normal Actions/normalswimdiagdown.png" id="6_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://00ppwwsr0skb" path="res://assets/FishieAnimations/Animations/Normal Actions/normalswimdiagup.png" id="6_y4r1p"]
+[ext_resource type="Texture2D" uid="uid://b2mko2fnql245" path="res://assets/FishieAnimations/Animations/Normal Actions/OuchShocked.png" id="8_jej6c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ujl30"]
 atlas = ExtResource("2_3v2ag")
@@ -96,6 +97,22 @@ region = Rect2(0, 64, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_606se"]
 atlas = ExtResource("2_fjrip")
 region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4otl"]
+atlas = ExtResource("8_jej6c")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2b1d"]
+atlas = ExtResource("8_jej6c")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cs1tg"]
+atlas = ExtResource("8_jej6c")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2dvfe"]
+atlas = ExtResource("8_jej6c")
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u1c27"]
 atlas = ExtResource("3_smehm")
@@ -274,6 +291,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_t4otl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2b1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cs1tg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2dvfe")
+}],
+"loop": true,
+"name": &"stunned",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_u1c27")
 }, {
 "duration": 1.0,
@@ -369,8 +403,8 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=378170216]
 sprite_frames = SubResource("SpriteFrames_efrwb")
-animation = &"bite-up"
-frame_progress = 0.005095806
+animation = &"stunned"
+frame_progress = 0.6317586
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2009736605]
 shape = SubResource("CircleShape2D_2hs0m")
