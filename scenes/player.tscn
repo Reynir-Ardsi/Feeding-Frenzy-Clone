@@ -363,6 +363,7 @@ radius = 12.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1657161446]
 z_index = 100
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_tuyoq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=378170216]

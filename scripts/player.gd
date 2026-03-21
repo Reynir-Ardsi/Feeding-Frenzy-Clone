@@ -17,6 +17,8 @@ var dash_cooldown_timer: float = 0.0
 var dash_direction: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	var screen_size = get_viewport_rect().size
+	global_position = screen_size / 2
 	change_state(IDLE)
 
 func _process(delta: float) -> void:
