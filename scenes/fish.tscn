@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://m0dpcdjqego8"]
 
+[ext_resource type="Script" uid="uid://byu2dyn4apjne" path="res://scripts/basicfish.gd" id="1_8g0i4"]
 [ext_resource type="Texture2D" uid="uid://bnrxmpfyxgyfq" path="res://assets/Fish Sprites/Dociles/4.png" id="1_n6yr6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8g0i4"]
@@ -29,11 +30,15 @@ radius = 5.0
 height = 26.0
 
 [node name="Fish" type="CharacterBody2D" unique_id=1133010845]
+scale = Vector2(2, 2)
+script = ExtResource("1_8g0i4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=876509272]
 sprite_frames = SubResource("SpriteFrames_pgks6")
-frame_progress = 0.34754968
+frame_progress = 0.3645227
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=371797320]
+[node name="Area2D" type="Area2D" parent="." unique_id=1832757224]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=371797320]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_6lgmd")

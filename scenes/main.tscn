@@ -6,6 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://mqx3b7x07u0d" path="res://scenes/jellyfish.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://b1oq0slchkt34" path="res://scenes/swordfish.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dt6ppj6nnw3w0" path="res://scenes/eel.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://m0dpcdjqego8" path="res://scenes/fish.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://duuke3ydhfqyd" path="res://scenes/fish2.tscn" id="8_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://cgdjq1pu8kehb" path="res://scenes/fish3.tscn" id="9_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://ymcgmhnv7ve5" path="res://scenes/fish4.tscn" id="10_trceg"]
+[ext_resource type="PackedScene" uid="uid://fwilot6xf4pp" path="res://scenes/fish5.tscn" id="11_a8y0u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
 size = Vector2(1920, 20)
@@ -41,3 +46,18 @@ shape = SubResource("RectangleShape2D_tefeu")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=1172694577]
 position = Vector2(958, 1082)
 shape = SubResource("RectangleShape2D_tefeu")
+
+[node name="Fish" parent="." unique_id=1133010845 instance=ExtResource("7_o6xl0")]
+position = Vector2(895, 404)
+
+[node name="Fish2" parent="." unique_id=2080074740 instance=ExtResource("8_ya4ey")]
+position = Vector2(986, 462)
+
+[node name="Fish3" parent="." unique_id=845621516 instance=ExtResource("9_eb6dy")]
+position = Vector2(859, 466)
+
+[node name="Fish4" parent="." unique_id=836268166 instance=ExtResource("10_trceg")]
+position = Vector2(902, 501)
+
+[node name="Fish5" parent="." unique_id=61057372 instance=ExtResource("11_a8y0u")]
+position = Vector2(799, 482)
