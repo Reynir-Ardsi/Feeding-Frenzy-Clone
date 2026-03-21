@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://1rf3e5nbxgus"]
 
-[ext_resource type="Texture2D" uid="uid://bxoq44ceott4u" path="res://assets/UI/StatBar/HPContainer.png" id="1_eqpxh"]
-[ext_resource type="Texture2D" uid="uid://oc3e8skyoqbi" path="res://assets/UI/StatBar/HPBar1.png" id="2_dqib6"]
-[ext_resource type="Texture2D" uid="uid://dpsc54ihvl50v" path="res://assets/UI/StatBar/StaminaContainer.png" id="3_gvn6p"]
-[ext_resource type="Texture2D" uid="uid://cr1x2w0sv0jvq" path="res://assets/UI/StatBar/StaminaBar1.png" id="4_y5d0w"]
+[ext_resource type="Texture2D" uid="uid://bxoq44ceott4u" path="res://assets/UI/StatBar/HPContainer.png" id="1_upjvh"]
+[ext_resource type="Texture2D" uid="uid://oc3e8skyoqbi" path="res://assets/UI/StatBar/HPBar1.png" id="2_wcq4p"]
+[ext_resource type="Texture2D" uid="uid://dpsc54ihvl50v" path="res://assets/UI/StatBar/StaminaContainer.png" id="3_wrruo"]
+[ext_resource type="Texture2D" uid="uid://cr1x2w0sv0jvq" path="res://assets/UI/StatBar/StaminaBar1.png" id="4_obccc"]
 
 [node name="HUD" type="Node2D" unique_id=1930648704]
 
@@ -14,8 +14,8 @@ offset_right = 611.0
 offset_bottom = 101.0
 value = 20.0
 nine_patch_stretch = true
-texture_under = ExtResource("1_eqpxh")
-texture_progress = ExtResource("2_dqib6")
+texture_under = ExtResource("1_upjvh")
+texture_progress = ExtResource("2_wcq4p")
 
 [node name="HPProgBar" type="ProgressBar" parent="." unique_id=314461693]
 offset_left = 31.0
@@ -23,16 +23,16 @@ offset_top = 198.0
 offset_right = 131.0
 offset_bottom = 225.0
 
-[node name="STATextProgrBar" type="TextureProgressBar" parent="." unique_id=394456187]
+[node name="SizeTextProgrBar" type="TextureProgressBar" parent="." unique_id=394456187]
 offset_left = 1300.0
 offset_right = 1909.0
 offset_bottom = 99.0
 value = 86.0
 nine_patch_stretch = true
-texture_under = ExtResource("3_gvn6p")
-texture_progress = ExtResource("4_y5d0w")
+texture_under = ExtResource("3_wrruo")
+texture_progress = ExtResource("4_obccc")
 
-[node name="STAProgBar" type="ProgressBar" parent="." unique_id=257879711]
+[node name="SizeProgBar" type="ProgressBar" parent="." unique_id=257879711]
 offset_left = 31.0
 offset_top = 198.0
 offset_right = 131.0
