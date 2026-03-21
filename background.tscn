@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://h5448jtjgf6a"]
+
+[ext_resource type="Texture2D" uid="uid://cal42p0jxw8c2" path="res://assets/free-underwater-world-pixel-art-backgrounds/background 3/1.png" id="1_bpugw"]
+[ext_resource type="Texture2D" uid="uid://dh84is84b0vdo" path="res://assets/free-underwater-world-pixel-art-backgrounds/background 3/2.png" id="2_gjjrj"]
+[ext_resource type="Texture2D" uid="uid://vgaitx3766w" path="res://assets/free-underwater-world-pixel-art-backgrounds/background 3/3.png" id="3_vvxqx"]
+[ext_resource type="Texture2D" uid="uid://cv0qc6x2t5k1" path="res://assets/free-underwater-world-pixel-art-backgrounds/background 3/4.png" id="4_cdpnt"]
+[ext_resource type="Texture2D" uid="uid://b7nc686e8csp8" path="res://assets/free-underwater-world-pixel-art-backgrounds/background 3/5.png" id="5_8u6ia"]
+[ext_resource type="Texture2D" uid="uid://c7tqx86ixjq4t" path="res://assets/free-underwater-world-pixel-art-backgrounds/background 3/6.png" id="6_6i7po"]
+
+[node name="Background" type="Node2D" unique_id=387874678]
+position = Vector2(953.00006, 540.00006)
+scale = Vector2(3.35, 3.35)
+metadata/_edit_group_ = true
+
+[node name="ParallaxLayer" type="Parallax2D" parent="." unique_id=1509780468]
+repeat_size = Vector2(570, 0)
+autoscroll = Vector2(10, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer" unique_id=739812944]
+texture = ExtResource("1_bpugw")
+
+[node name="ParallaxLayer2" type="Parallax2D" parent="." unique_id=229152069]
+repeat_size = Vector2(1200, 0)
+autoscroll = Vector2(-25, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer2" unique_id=1978971801]
+texture = ExtResource("2_gjjrj")
+
+[node name="ParallaxLayer3" type="Parallax2D" parent="." unique_id=1130819735]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer3" unique_id=1107834291]
+texture = ExtResource("3_vvxqx")
+
+[node name="ParallaxLayer4" type="Parallax2D" parent="." unique_id=717804922]
+repeat_size = Vector2(0, 900)
+autoscroll = Vector2(0, -40)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer4" unique_id=1376916574]
+texture = ExtResource("4_cdpnt")
+
+[node name="ParallaxLayer5" type="Parallax2D" parent="." unique_id=912830775]
+repeat_size = Vector2(0, 800)
+autoscroll = Vector2(0, -50)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer5" unique_id=1559175778]
+texture = ExtResource("5_8u6ia")
+
+[node name="ParallaxLayer6" type="Parallax2D" parent="." unique_id=1038451058]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer6" unique_id=421397796]
+texture = ExtResource("6_6i7po")

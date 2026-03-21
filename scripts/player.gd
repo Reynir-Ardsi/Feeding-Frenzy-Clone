@@ -29,9 +29,11 @@ func _process(delta: float) -> void:
 		velocity = Vector2.ZERO
 	
 	if velocity.x == 0:
+	#if velocity.x >= - 100 and velocity.x <= 300:
 		change_state(IDLE )
 		
-	#debugging
+	#debugging stats
+	#print(velocity.x)
 	print(velocity.y)
 	
 	move_and_slide()

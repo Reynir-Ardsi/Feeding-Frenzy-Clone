@@ -1,17 +1,10 @@
 [gd_scene format=3 uid="uid://bt5r4c0tvylrt"]
 
+[ext_resource type="PackedScene" uid="uid://bvl1qm5paoqi7" path="res://scenes/player.tscn" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://h5448jtjgf6a" path="res://background.tscn" id="2_sugp2"]
+
 [node name="Main" type="Node2D" unique_id=1851467715]
 
-[node name="Parallax2D" type="Parallax2D" parent="." unique_id=181801213]
+[node name="Player" parent="." unique_id=1657161446 instance=ExtResource("1_0wfyh")]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax2D" unique_id=1438479820]
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D/ParallaxLayer" unique_id=1966264445]
-
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="Parallax2D" unique_id=2122383176]
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D/ParallaxLayer2" unique_id=1354078361]
-
-[node name="ParallaxLayer3" type="ParallaxLayer" parent="Parallax2D" unique_id=1626286406]
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D/ParallaxLayer3" unique_id=262295027]
+[node name="Background" parent="." unique_id=872687925 instance=ExtResource("2_sugp2")]
