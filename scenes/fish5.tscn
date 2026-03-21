@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://fwilot6xf4pp"]
+
+[ext_resource type="Texture2D" uid="uid://cjjnvd5d42w3c" path="res://assets/Fish Sprites/Dociles/3.png" id="1_nyleu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fj2ug"]
+atlas = ExtResource("1_nyleu")
+region = Rect2(0, 0, 20, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idryu"]
+atlas = ExtResource("1_nyleu")
+region = Rect2(20, 0, 20, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pgks6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fj2ug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idryu")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 6.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6lgmd"]
+radius = 5.0
+height = 20.0
+
+[node name="Fish" type="CharacterBody2D" unique_id=1133010845]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=876509272]
+sprite_frames = SubResource("SpriteFrames_pgks6")
+animation = &"swim"
+frame_progress = 0.42524317
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=371797320]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_6lgmd")
