@@ -361,10 +361,11 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_2hs0m"]
 radius = 12.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1657161446]
+[node name="Player" type="CharacterBody2D" unique_id=1657161446 groups=["player"]]
 z_index = 100
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_tuyoq")
+metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=378170216]
 sprite_frames = SubResource("SpriteFrames_efrwb")

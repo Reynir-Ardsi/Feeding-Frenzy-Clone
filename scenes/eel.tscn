@@ -134,11 +134,11 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=2049099378]
+[node name="Eel" type="CharacterBody2D" unique_id=2049099378]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=603790570]
 sprite_frames = SubResource("SpriteFrames_8iofw")
 animation = &"attack"
-frame_progress = 0.63722456
+frame_progress = 0.13565803
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1701048279]

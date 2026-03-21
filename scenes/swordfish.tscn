@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://b1oq0slchkt34"]
 
 [ext_resource type="Texture2D" uid="uid://b4eo3y05l7ovq" path="res://assets/Fish Sprites/Swordfish/Attack.png" id="1_o1qqw"]
+[ext_resource type="Script" uid="uid://cl7l5258r7gll" path="res://scripts/swordfish.gd" id="1_p7ss0"]
 [ext_resource type="Texture2D" uid="uid://44yp0sxchxui" path="res://assets/Fish Sprites/Swordfish/Hurt.png" id="2_4biw8"]
 [ext_resource type="Texture2D" uid="uid://bylk2o5njc66o" path="res://assets/Fish Sprites/Swordfish/Walk.png" id="3_1ftpb"]
+[ext_resource type="Texture2D" uid="uid://ux3texcqnmop" path="res://assets/Fish Sprites/Swordfish/Death.png" id="3_nj5d7"]
+[ext_resource type="Texture2D" uid="uid://b553b2mib2x7k" path="res://assets/Fish Sprites/Swordfish/Idle.png" id="5_btm6f"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7ss0"]
 atlas = ExtResource("1_o1qqw")
@@ -28,6 +31,30 @@ region = Rect2(192, 0, 48, 48)
 atlas = ExtResource("1_o1qqw")
 region = Rect2(240, 0, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo8qs"]
+atlas = ExtResource("3_nj5d7")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0yno"]
+atlas = ExtResource("3_nj5d7")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1q3q"]
+atlas = ExtResource("3_nj5d7")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma03f"]
+atlas = ExtResource("3_nj5d7")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmkfb"]
+atlas = ExtResource("3_nj5d7")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22ujw"]
+atlas = ExtResource("3_nj5d7")
+region = Rect2(240, 0, 48, 48)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_5hofk"]
 atlas = ExtResource("2_4biw8")
 region = Rect2(0, 0, 48, 48)
@@ -35,6 +62,22 @@ region = Rect2(0, 0, 48, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ga5er"]
 atlas = ExtResource("2_4biw8")
 region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skfae"]
+atlas = ExtResource("5_btm6f")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pi6qk"]
+atlas = ExtResource("5_btm6f")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6dogx"]
+atlas = ExtResource("5_btm6f")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ekkmq"]
+atlas = ExtResource("5_btm6f")
+region = Rect2(144, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4g2dt"]
 atlas = ExtResource("3_1ftpb")
@@ -79,6 +122,29 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_fo8qs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0yno")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1q3q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma03f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmkfb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22ujw")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_5hofk")
 }, {
 "duration": 1.0,
@@ -87,6 +153,23 @@ animations = [{
 "loop": false,
 "name": &"hurt",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skfae")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pi6qk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6dogx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ekkmq")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -115,33 +198,47 @@ radius = 2.9999998
 height = 20.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ma03f"]
-radius = 29.0
+radius = 36.013885
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vmkfb"]
 radius = 4.0
-height = 32.0
+height = 38.0
 
 [node name="Swordfish" type="CharacterBody2D" unique_id=2013874357]
+script = ExtResource("1_p7ss0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1994037845]
 sprite_frames = SubResource("SpriteFrames_fo8qs")
-animation = &"hurt"
+animation = &"swim"
 
-[node name="tail" type="CollisionShape2D" parent="." unique_id=119405545]
+[node name="tail" type="Area2D" parent="." unique_id=407529909]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="tail" unique_id=119405545]
 position = Vector2(-11, 1)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_j0yno")
 
-[node name="sword" type="CollisionShape2D" parent="." unique_id=647944300]
+[node name="head" type="Area2D" parent="." unique_id=83012257]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="head" unique_id=647944300]
 position = Vector2(12, 1)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_i1q3q")
 
-[node name="aggro" type="CollisionShape2D" parent="." unique_id=873627565]
-position = Vector2(31, 0)
+[node name="aggro" type="Area2D" parent="." unique_id=1407786861]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="aggro" unique_id=873627565]
+position = Vector2(38, 0)
 shape = SubResource("CircleShape2D_ma03f")
 
-[node name="hitdetection" type="CollisionShape2D" parent="." unique_id=1894738565]
-position = Vector2(18, 1)
+[node name="hitdetection" type="Area2D" parent="." unique_id=1967713613]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitdetection" unique_id=1894738565]
+position = Vector2(21, 1)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_vmkfb")
+
+[connection signal="body_entered" from="tail" to="." method="_on_tail_body_entered"]
+[connection signal="body_entered" from="head" to="." method="_on_head_body_entered"]
+[connection signal="body_entered" from="aggro" to="." method="_on_aggro_body_entered"]
+[connection signal="body_entered" from="hitdetection" to="." method="_on_hitdetection_body_entered"]
