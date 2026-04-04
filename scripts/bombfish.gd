@@ -11,9 +11,12 @@ var state: int = IDLE
 var direction: Vector2 = Vector2.ZERO
 var state_timer: float = 0.0
 var exploded: bool = false
+var target_x: float
 
 func _ready() -> void:
 	randomize()
+	var viewport_size = get_viewport().get_visible_rect().size
+	target_x = viewport_size.x if position.x < viewport_size.x / 2 else 0
 	change_state(IDLE)
 
 func _process(delta: float) -> void:
@@ -33,6 +36,7 @@ func _process(delta: float) -> void:
 			velocity = Vector2.ZERO
 		SWIM:
 			velocity = direction * speed
+			
 			if velocity.x < -0.1:
 				$AnimatedSprite2D.flip_h = true
 			elif velocity.x > 0.1:
@@ -40,6 +44,11 @@ func _process(delta: float) -> void:
 				
 
 	move_and_slide()
+
+	# Despawn if outside screen
+	var viewport_size = get_viewport().get_visible_rect().size
+	if position.x < -100 or position.x > viewport_size.x + 100:
+		queue_free()
 
 # State handler
 func change_state(new_state: int) -> void:
@@ -62,7 +71,9 @@ func change_state(new_state: int) -> void:
 
 # Random movement direction
 func set_random_direction():
-	direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+	var target_pos = Vector2(target_x, position.y + randf_range(-50, 50))
+	direction = (target_pos - position).normalized() + Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
+	direction = direction.normalized()
 
 # Collision trigger
 #func _on_body_entered(body: Node) -> void:

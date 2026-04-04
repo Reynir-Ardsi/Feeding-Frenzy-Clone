@@ -17,9 +17,12 @@ var state_timer: float = 0.0
 var target: Node = null
 var knockback_vector: Vector2 = Vector2.ZERO
 var knockback_timer: float = 0.0
+var target_x: float
 
 func _ready() -> void:
 	randomize()
+	var viewport_size = get_viewport().get_visible_rect().size
+	target_x = viewport_size.x if position.x < viewport_size.x / 2 else 0
 	hp = max_hp
 	change_state(IDLE)
 
@@ -48,6 +51,11 @@ func _process(delta: float) -> void:
 		knockback_timer -= delta
 
 	move_and_slide()
+
+	# Despawn if outside screen
+	var viewport_size = get_viewport().get_visible_rect().size
+	if position.x < -100 or position.x > viewport_size.x + 100:
+		queue_free()
 
 # --------------------
 # STATE FUNCTIONS
@@ -104,7 +112,9 @@ func change_state(new_state: int) -> void:
 
 		SWIM:
 			state_timer = randf_range(1.0, 3.0)
-			#set_random_direction()
+			var target_pos = Vector2(target_x, position.y + randf_range(-50, 50))
+			direction = (target_pos - position).normalized() + Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
+			direction = direction.normalized()
 			$AnimatedSprite2D.play("swim")
 			#flip_check()
 
@@ -126,8 +136,12 @@ func change_state(new_state: int) -> void:
 				# Face player
 				if target.global_position.x > global_position.x:
 					$AnimatedSprite2D.flip_h = true
+					flip_collision_shapes(false)
 				else:
 					$AnimatedSprite2D.flip_h = false
+					flip_collision_shapes(true)
+				
+				
 
 		ATTACK:
 			state_timer = 0.4
@@ -144,30 +158,18 @@ func change_state(new_state: int) -> void:
 
 func flip_check():
 	if velocity.x < -0.1:
-		$AnimatedSprite2D.flip_h = false
-	elif velocity.x > 0.1:
 		$AnimatedSprite2D.flip_h = true
-#func flip_check():
-	#if velocity.x < -0.1:
-		#$AnimatedSprite2D.flip_h = false
-		#flip_collision_shapes(false)
-	#elif velocity.x > 0.1:
-		#$AnimatedSprite2D.flip_h = true
-		#flip_collision_shapes(true)
-#
-## Mirror all collision shapes horizontally relative to the parent
-#func flip_collision_shapes(flip_h: bool):
-	## TailArea, SwordArea, HitDetectionArea, AggroArea
-	#var shapes = [$tail, $sword, $hitdetection, $aggro]
-	#for shape in shapes:
-		#shape.position.x = abs(shape.position.x) if flip_h else -abs(shape.position.x)
+		flip_collision_shapes(false)
+	elif velocity.x > 0.1:
+		$AnimatedSprite2D.flip_h = false
+		flip_collision_shapes(true)
 
-#func set_random_direction():
-	#direction = Vector2(randf_range(-1,1), randf_range(-1,1)).normalized()
-	#if direction.x < 0:
-		#$AnimatedSprite2D.flip_h = false
-	#elif direction.x > 0:
-		#$AnimatedSprite2D.flip_h = true
+# Mirror all collision shapes horizontally relative to the parent
+func flip_collision_shapes(flip_h: bool):
+	# TailArea, SwordArea, HitDetectionArea, AggroArea
+	var shapes = [$tail, $head, $hitdetection, $aggro]
+	for shape in shapes:
+		shape.position.x = abs(shape.position.x) if flip_h else -abs(shape.position.x)
 
 func take_damage(amount: int = 1):
 	if state == DEAD:

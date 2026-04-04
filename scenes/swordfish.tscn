@@ -213,13 +213,15 @@ sprite_frames = SubResource("SpriteFrames_fo8qs")
 animation = &"swim"
 
 [node name="tail" type="Area2D" parent="." unique_id=407529909]
+position = Vector2(5.9604645e-08, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="tail" unique_id=119405545]
-position = Vector2(-11, 1)
+position = Vector2(-13, 0)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_j0yno")
 
 [node name="head" type="Area2D" parent="." unique_id=83012257]
+position = Vector2(5.9604645e-08, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="head" unique_id=647944300]
 position = Vector2(12, 1)
@@ -227,15 +229,16 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_i1q3q")
 
 [node name="aggro" type="Area2D" parent="." unique_id=1407786861]
+position = Vector2(40, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="aggro" unique_id=873627565]
-position = Vector2(38, 0)
 shape = SubResource("CircleShape2D_ma03f")
 
 [node name="hitdetection" type="Area2D" parent="." unique_id=1967713613]
+position = Vector2(22, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitdetection" unique_id=1894738565]
-position = Vector2(21, 1)
+position = Vector2(1.1368684e-13, 0)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_vmkfb")
 

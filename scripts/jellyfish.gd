@@ -7,6 +7,8 @@ extends CharacterBody2D
 @export var knockback_duration: float = 0.2
 @export var max_hp: int = 2
 
+signal hit
+
 enum {IDLE, SWIM, HURT, ATTACK, DEAD}
 var state: int = IDLE
 
@@ -16,9 +18,12 @@ var state_timer: float = 0.0
 var target: Node = null
 var knockback_vector: Vector2 = Vector2.ZERO
 var knockback_timer: float = 0.0
+var target_x: float
 
 func _ready() -> void:
 	randomize()
+	var viewport_size = get_viewport().get_visible_rect().size
+	target_x = viewport_size.x if position.x < viewport_size.x / 2 else 0
 	hp = max_hp
 	change_state(IDLE)
 
@@ -41,6 +46,11 @@ func _process(delta: float) -> void:
 		knockback_timer -= delta
 
 	move_and_slide()
+
+	# Despawn if outside screen
+	var viewport_size = get_viewport().get_visible_rect().size
+	if position.x < -100 or position.x > viewport_size.x + 100:
+		queue_free()
 
 # --------------------
 # STATE FUNCTIONS
@@ -111,7 +121,9 @@ func change_state(new_state: int) -> void:
 # HELPERS
 # --------------------
 func set_random_direction():
-	direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+	var target_pos = Vector2(target_x, position.y + randf_range(-50, 50))
+	direction = (target_pos - position).normalized() + Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
+	direction = direction.normalized()
 	
 	# Optional flip
 	if direction.x < 0:
