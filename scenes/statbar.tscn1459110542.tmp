@@ -6,24 +6,24 @@
 [ext_resource type="Texture2D" uid="uid://dpsc54ihvl50v" path="res://assets/UI/StatBar/StaminaContainer.png" id="3_wrruo"]
 [ext_resource type="Texture2D" uid="uid://cr1x2w0sv0jvq" path="res://assets/UI/StatBar/StaminaBar1.png" id="4_obccc"]
 
-[node name="Statbar" type="Node2D" unique_id=1930648704]
+[node name="HUD" type="Node2D" unique_id=1930648704]
 script = ExtResource("1_wcq4p")
 
-[node name="HPBar" type="TextureProgressBar" parent="." unique_id=2023162964]
+[node name="HPTextProgBar" type="TextureProgressBar" parent="." unique_id=2023162964]
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 611.0
 offset_bottom = 101.0
-value = 100.0
+value = 40.0
 nine_patch_stretch = true
 texture_under = ExtResource("1_upjvh")
 texture_progress = ExtResource("2_wcq4p")
 
-[node name="HUNGERBar" type="TextureProgressBar" parent="." unique_id=394456187]
+[node name="HUNGERTextProgrBar" type="TextureProgressBar" parent="." unique_id=394456187]
 offset_left = 1300.0
 offset_right = 1909.0
 offset_bottom = 99.0
-value = 100.0
+value = 86.0
 nine_patch_stretch = true
 texture_under = ExtResource("3_wrruo")
 texture_progress = ExtResource("4_obccc")

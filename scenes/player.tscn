@@ -397,14 +397,13 @@ radius = 12.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1657161446 groups=["player"]]
 z_index = 100
-scale = Vector2(1.5, 1.5)
+scale = Vector2(2, 2)
 script = ExtResource("1_tuyoq")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=378170216]
 sprite_frames = SubResource("SpriteFrames_efrwb")
-animation = &"stunned"
-frame_progress = 0.6317586
+animation = &"dead"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2009736605]
 shape = SubResource("CircleShape2D_2hs0m")

@@ -8,6 +8,12 @@ extends CharacterBody2D
 @export var rotation_speed: float = 5.0
 @export var max_tilt_angle: float = 45.0
 
+var hp: float
+var hunger: float = 100.0
+var hunger_depletion_rate: float = 1.0
+var health_drain_rate: float = 5.0
+var is_dead: bool = false
+
 enum {IDLE, SWIM, BITE, SWIMUP, SWIMDOWN}
 var state: int = IDLE
 
@@ -17,11 +23,25 @@ var dash_cooldown_timer: float = 0.0
 var dash_direction: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	hp = 100.0
+	hunger = 100.0
 	var screen_size = get_viewport_rect().size
 	global_position = screen_size / 2
 	change_state(IDLE)
 
 func _process(delta: float) -> void:
+	if is_dead:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
+	# Hunger drains over time
+	hunger = max(hunger - hunger_depletion_rate * delta, 0.0)
+	if hunger <= 0.0:
+		hp = max(hp - health_drain_rate * delta, 0.0)
+		if hp == 0.0:
+			die()
+
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position)
 	var distance = direction.length()
@@ -87,3 +107,30 @@ func flip_check():
 		$AnimatedSprite2D.flip_h = false
 	elif velocity.x > 0.1:
 		$AnimatedSprite2D.flip_h = true
+
+func hit(damage):
+	hp = max(hp - damage, 0.0)
+	if hp == 0.0:
+		die()
+
+func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	velocity = Vector2.ZERO
+	if $AnimatedSprite2D.frames.has_animation("dead"):
+		$AnimatedSprite2D.play("dead")
+	else:
+		$AnimatedSprite2D.stop()
+
+func bite():
+	if $AnimatedSprite2D.is_playing("swim_up"):
+		$AnimatedSprite2D.stop()
+		$AnimatedSprite2D.play("bite_up")
+	elif $AnimatedSprite2D.is_playing("swim_down"):
+		$AnimatedSprite2D.stop()
+		$AnimatedSprite2D.play("bite_down")
+	else:  
+		$AnimatedSprite2D.stop()
+		$AnimatedSprite2D.play("bite") 
+	
