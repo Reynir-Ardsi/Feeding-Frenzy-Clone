@@ -130,16 +130,20 @@ func change_state(new_state: int) -> void:
 		HURT:
 			state_timer = 0.5
 			$AnimatedSprite2D.play("hurt")
+			
+			await get_tree().create_timer(1).timeout
+			
 			if target:
 				knockback_vector = (global_position - target.global_position).normalized() * knockback_strength
 				knockback_timer = knockback_duration
 				# Face player
 				if target.global_position.x > global_position.x:
 					$AnimatedSprite2D.flip_h = true
-					flip_collision_shapes(false)
+					flip_collision_shapes(true)
 				else:
 					$AnimatedSprite2D.flip_h = false
-					flip_collision_shapes(true)
+					flip_collision_shapes(false)
+					
 				
 				
 
@@ -167,9 +171,10 @@ func flip_check():
 # Mirror all collision shapes horizontally relative to the parent
 func flip_collision_shapes(flip_h: bool):
 	# TailArea, SwordArea, HitDetectionArea, AggroArea
-	var shapes = [$tail, $head, $hitdetection, $aggro]
+	var shapes = [$head, $hit, $aggro]
 	for shape in shapes:
 		shape.position.x = abs(shape.position.x) if flip_h else -abs(shape.position.x)
+	$tail.position.x = -abs($tail.position.x) if flip_h else abs($tail.position.x)
 
 func take_damage(amount: int = 1):
 	if state == DEAD:

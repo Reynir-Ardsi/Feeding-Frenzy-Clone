@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bvl1qm5paoqi7" path="res://scenes/player.tscn" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://bp73rcgq3xmwt" path="res://scripts/main.gd" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://h5448jtjgf6a" path="res://scenes/background.tscn" id="2_sugp2"]
-[ext_resource type="PackedScene" uid="uid://dt6ppj6nnw3w0" path="res://scenes/eel.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://b1oq0slchkt34" path="res://scenes/swordfish.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://1rf3e5nbxgus" path="res://scenes/statbar.tscn" id="12_eb6dy"]
 [ext_resource type="Script" uid="uid://djvfmscgjlgi2" path="res://scripts/spawner.gd" id="13_spawner"]
 
@@ -21,5 +21,5 @@ position = Vector2(-60, 159)
 [node name="Spawner" type="Node" parent="." unique_id=1286608618]
 script = ExtResource("13_spawner")
 
-[node name="Eel" parent="." unique_id=2049099378 instance=ExtResource("6_tefeu")]
-position = Vector2(877, 564)
+[node name="Swordfish" parent="." unique_id=2013874357 instance=ExtResource("6_tefeu")]
+position = Vector2(406.00006, 470)
