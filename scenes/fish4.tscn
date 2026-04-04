@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ymcgmhnv7ve5"]
+[gd_scene format=3 uid="uid://b7kle1kym86pe"]
 
 [ext_resource type="Script" uid="uid://byu2dyn4apjne" path="res://scripts/basicfish.gd" id="1_8leqc"]
 [ext_resource type="Texture2D" uid="uid://b833rjapprh78" path="res://assets/Fish Sprites/Dociles/2.png" id="1_scjlj"]
@@ -25,9 +25,12 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6lgmd"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8leqc"]
 radius = 5.0
-height = 20.0
+height = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8leqc"]
+radius = 108.5
 
 [node name="Fish" type="CharacterBody2D" unique_id=1133010845]
 scale = Vector2(2, 2)
@@ -37,10 +40,19 @@ script = ExtResource("1_8leqc")
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_pgks6")
 animation = &"swim"
-frame_progress = 0.009422927
 
-[node name="Area2D" type="Area2D" parent="." unique_id=151033946]
+[node name="hitArea" type="Area2D" parent="." unique_id=1097936630]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=371797320]
+[node name="hitShape" type="CollisionShape2D" parent="hitArea" unique_id=128618282]
 rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_6lgmd")
+shape = SubResource("CapsuleShape2D_8leqc")
+
+[node name="fleeArea" type="Area2D" parent="." unique_id=1912646815]
+
+[node name="fleeShape" type="CollisionShape2D" parent="fleeArea" unique_id=826902423]
+shape = SubResource("CircleShape2D_8leqc")
+debug_color = Color(1, 1, 1, 0.13333334)
+
+[connection signal="body_entered" from="hitArea" to="." method="_on_hit_area_body_entered"]
+[connection signal="body_entered" from="fleeArea" to="." method="_on_flee_area_body_entered"]
+[connection signal="body_exited" from="fleeArea" to="." method="_on_flee_area_body_exited"]

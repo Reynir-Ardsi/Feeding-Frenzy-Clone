@@ -21,7 +21,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_nub35")
 }],
 "loop": true,
-"name": &"default",
+"name": &"swim",
 "speed": 6.0
 }]
 
@@ -29,16 +29,30 @@ animations = [{
 radius = 5.0
 height = 26.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8g0i4"]
+radius = 108.5
+
 [node name="Fish" type="CharacterBody2D" unique_id=1133010845]
 scale = Vector2(2, 2)
 script = ExtResource("1_8g0i4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=876509272]
 sprite_frames = SubResource("SpriteFrames_pgks6")
-frame_progress = 0.3645227
+animation = &"swim"
+frame_progress = 0.15813607
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1832757224]
+[node name="hitArea" type="Area2D" parent="." unique_id=1832757224]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=371797320]
+[node name="hitShape" type="CollisionShape2D" parent="hitArea" unique_id=371797320]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_6lgmd")
+
+[node name="fleeArea" type="Area2D" parent="." unique_id=576757939]
+
+[node name="fleeShape" type="CollisionShape2D" parent="fleeArea" unique_id=1183446074]
+shape = SubResource("CircleShape2D_8g0i4")
+debug_color = Color(1, 1, 1, 0.13333334)
+
+[connection signal="body_entered" from="hitArea" to="." method="_on_hit_area_body_entered"]
+[connection signal="body_entered" from="fleeArea" to="." method="_on_flee_area_body_entered"]
+[connection signal="body_exited" from="fleeArea" to="." method="_on_flee_area_body_exited"]
