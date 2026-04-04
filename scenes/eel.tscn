@@ -204,9 +204,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bjxut"]
-radius = 14.0
+radius = 11.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s5ywd"]
+radius = 108.5
 
 [node name="Eel" type="CharacterBody2D" unique_id=2049099378]
+scale = Vector2(2, 2)
 script = ExtResource("1_s5ywd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=603790570]
@@ -214,9 +218,17 @@ position = Vector2(3, -2)
 sprite_frames = SubResource("SpriteFrames_8iofw")
 animation = &"hurt"
 
-[node name="Area2D" type="Area2D" parent="." unique_id=199040578]
+[node name="hitArea" type="Area2D" parent="." unique_id=199040578]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1701048279]
+[node name="hitShape" type="CollisionShape2D" parent="hitArea" unique_id=1701048279]
 shape = SubResource("CircleShape2D_bjxut")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="fleeArea" type="Area2D" parent="." unique_id=1067146476]
+
+[node name="fleeShape" type="CollisionShape2D" parent="fleeArea" unique_id=2021693390]
+shape = SubResource("CircleShape2D_s5ywd")
+debug_color = Color(1, 1, 1, 0.13333334)
+
+[connection signal="body_entered" from="hitArea" to="." method="_on_hit_area_body_entered"]
+[connection signal="body_entered" from="fleeArea" to="." method="_on_flee_area_body_entered"]
+[connection signal="body_exited" from="fleeArea" to="." method="_on_flee_area_body_exited"]
