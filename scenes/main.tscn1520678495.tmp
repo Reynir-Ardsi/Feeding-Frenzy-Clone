@@ -36,5 +36,5 @@ shape = SubResource("RectangleShape2D_tefeu")
 [node name="Fish" parent="." unique_id=1133010845 instance=ExtResource("11_a8y0u")]
 position = Vector2(785, 552)
 
-[node name="Spawner" type="Node" parent="." unique_id=9876543210]
+[node name="Spawner" type="Node" parent="." unique_id=1286608618]
 script = ExtResource("13_spawner")
