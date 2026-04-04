@@ -10,8 +10,8 @@ extends CharacterBody2D
 
 var hp: float
 var hunger: float = 100.0
-var hunger_depletion_rate: float = 1.0
-var health_drain_rate: float = 5.0
+var hunger_depletion_rate: float = 5.0
+var health_drain_rate: float = 6.0
 var is_dead: bool = false
 
 enum {IDLE, SWIM, BITE, SWIMUP, SWIMDOWN}

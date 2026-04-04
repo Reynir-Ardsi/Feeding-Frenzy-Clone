@@ -26,7 +26,7 @@ var target_x: float
 var knockback_vector: Vector2 = Vector2.ZERO
 var knockback_timer: float = 0.0
 var last_attacker: Node = null
-const FOOD_PER_HP: float = 10.0
+const FOOD_PER_HP: float = 20.0
 
 func get_food_value() -> float:
 	return float(max_hp) * FOOD_PER_HP

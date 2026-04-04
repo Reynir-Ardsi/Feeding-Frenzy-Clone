@@ -3,7 +3,7 @@ extends Node
 var is_active = true # Set to true to start spawning
 var spawn_timer = 0.0
 var spawn_interval = 1.5 # Adjusted for better flow
-var max_total_fish = 25
+var max_total_fish = 30
 
 # Define scenes manually for easier indexing
 var fish_basic_scenes = []
@@ -48,13 +48,13 @@ func try_spawn():
 			if get_tree().get_nodes_in_group("eel").size() < 5:
 				spawn_fish(eel_scene, "eel")
 		"jelly":
-			if get_tree().get_nodes_in_group("jellyfish").size() < 6:
+			if get_tree().get_nodes_in_group("jellyfish").size() < 5:
 				spawn_fish(jelly_scene, "jellyfish")
 		"bomb":
-			if get_tree().get_nodes_in_group("bombfish").size() < 6:
+			if get_tree().get_nodes_in_group("bombfish").size() < 4:
 				spawn_fish(bomb_scene, "bombfish")
 		"basic":
-			if get_tree().get_nodes_in_group("basic_fish").size() < 15:
+			if get_tree().get_nodes_in_group("basic_fish").size() < 20:
 				var random_basic = fish_basic_scenes[randi() % fish_basic_scenes.size()]
 				spawn_fish(random_basic, "basic_fish")
 
