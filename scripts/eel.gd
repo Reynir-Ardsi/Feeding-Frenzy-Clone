@@ -25,6 +25,19 @@ var target_x: float
 # Knockback
 var knockback_vector: Vector2 = Vector2.ZERO
 var knockback_timer: float = 0.0
+var last_attacker: Node = null
+const FOOD_PER_HP: float = 10.0
+
+func get_food_value() -> float:
+	return float(max_hp) * FOOD_PER_HP
+
+func feed_player(body: Node) -> void:
+	if body and body.has_method("apply_nutrition"):
+		body.apply_nutrition(get_food_value())
+
+func mark_attacker(body: Node) -> void:
+	if body and (body.name == "Player" or body.is_in_group("player")):
+		last_attacker = body
 
 func _ready() -> void:
 	randomize()
@@ -122,6 +135,8 @@ func change_state(new_state: int) -> void:
 			$AnimatedSprite2D.play("hurt")
 		DEAD:
 			$AnimatedSprite2D.play("dead")
+			if last_attacker:
+				feed_player(last_attacker)
 			await get_tree().create_timer(0.5).timeout
 			queue_free()
 
@@ -176,5 +191,6 @@ func _on_flee_area_body_exited(body: Node2D) -> void:
 		is_fleeing = false
 
 func _on_hit_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
+	if body.name == "Player" or body.is_in_group("player"):
+		mark_attacker(body)
 		current_action()

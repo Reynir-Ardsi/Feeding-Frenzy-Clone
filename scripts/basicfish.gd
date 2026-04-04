@@ -4,12 +4,17 @@ extends CharacterBody2D
 @export var flee_speed: float = 100 
 @export var swim_change_interval: float = 2.0 
 @export var vertical_margin: float = 100.0 # How close to the edge before turning back
+@export var food_value: float = 20.0
 
 var direction: Vector2 = Vector2.ZERO
 var state_timer: float = 0.0
 var target_x: float
 var is_fleeing: bool = false
 var player: Node2D = null 
+
+func feed_player(body: Node) -> void:
+	if body and body.has_method("apply_nutrition"):
+		body.apply_nutrition(food_value)
 
 func _ready() -> void:
 	var viewport_size = get_viewport().get_visible_rect().size
@@ -83,5 +88,6 @@ func _on_flee_area_body_exited(body: Node2D) -> void:
 		set_random_direction()
 
 func _on_hit_area_body_entered(body: Node2D) -> void:
-	if body.name == "Player":  
+	if body.name == "Player" or body.is_in_group("player"):
+		feed_player(body)
 		queue_free()

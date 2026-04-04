@@ -113,6 +113,17 @@ func hit(damage):
 	if hp == 0.0:
 		die()
 
+func apply_nutrition(amount: float) -> void:
+	if is_dead or amount <= 0.0:
+		return
+
+	var heal_amount = min(amount, 100.0 - hp)
+	hp += heal_amount
+	amount -= heal_amount
+
+	if amount > 0.0:
+		hunger = min(hunger + amount, 100.0)
+
 func die() -> void:
 	if is_dead:
 		return
