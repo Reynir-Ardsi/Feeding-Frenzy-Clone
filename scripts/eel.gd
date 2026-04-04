@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var speed: float = 100
-@export var flee_speed: float = 150 # Scared fish are faster
+@export var flee_speed: float = 100
 @export var attack_range: float = 150
 @export var max_hp: int = 3
 @export var attack_duration: float
@@ -30,7 +30,7 @@ func _ready() -> void:
 	randomize()
 	attack_duration = randf_range(0.8, 3.0)
 	var viewport_size = get_viewport().get_visible_rect().size
-	target_x = viewport_size.x if position.x < viewport_size.x / 2 else 0
+	target_x = viewport_size.x if global_position.x < viewport_size.x / 2 else 0
 	hp = max_hp
 	attack_cooldown_timer = randf_range(0.0, attack_interval)
 	change_state(IDLE)
@@ -136,8 +136,8 @@ func current_action():
 		#$Player.hit(stun)
 
 func set_random_direction():
-	var target_pos = Vector2(target_x, position.y + randf_range(-50, 50))
-	direction = (target_pos - position).normalized()
+	var target_pos = Vector2(target_x, global_position.y + randf_range(-50, 50))
+	direction = (target_pos - global_position).normalized()
 	direction += Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
 	direction = direction.normalized()
 
@@ -150,7 +150,7 @@ func keep_in_vertical_bounds():
 
 func check_boundaries():
 	var v_size = get_viewport().get_visible_rect().size
-	if position.x < -200 or position.x > v_size.x + 200:
+	if global_position.x < -200 or global_position.x > v_size.x + 200:
 		queue_free()
 
 func flip_check():

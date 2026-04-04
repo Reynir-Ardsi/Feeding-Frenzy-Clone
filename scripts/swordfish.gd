@@ -22,7 +22,7 @@ var target_x: float
 func _ready() -> void:
 	randomize()
 	var viewport_size = get_viewport().get_visible_rect().size
-	target_x = viewport_size.x if position.x < viewport_size.x / 2 else 0
+	target_x = viewport_size.x if global_position.x < viewport_size.x / 2 else 0
 	hp = max_hp
 	change_state(IDLE)
 
@@ -54,7 +54,7 @@ func _process(delta: float) -> void:
 
 	# Despawn if outside screen
 	var viewport_size = get_viewport().get_visible_rect().size
-	if position.x < -100 or position.x > viewport_size.x + 100:
+	if global_position.x < -100 or global_position.x > viewport_size.x + 100:
 		queue_free()
 
 # --------------------
@@ -112,10 +112,8 @@ func change_state(new_state: int) -> void:
 
 		SWIM:
 			state_timer = randf_range(1.0, 3.0)
-			var target_pos = Vector2(target_x, position.y + randf_range(-50, 50))
-			direction = (target_pos - position).normalized() + Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
-			direction = direction.normalized()
-			$AnimatedSprite2D.play("swim")
+			var target_pos = Vector2(target_x, global_position.y + randf_range(-50, 50))
+			direction = (target_pos - global_position).normalized() + Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
 			#flip_check()
 
 		CHASE:

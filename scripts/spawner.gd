@@ -1,42 +1,78 @@
 extends Node
 
-var is_active = false
+var is_active = true # Set to true to start spawning
 var spawn_timer = 0.0
-var spawn_interval = 3.0  # seconds between spawns
-var fish_scenes = []
+var spawn_interval = 1.5 # Adjusted for better flow
+var max_total_fish = 20
 
-# Called when the node enters the scene tree for the first time.
+# Define scenes manually for easier indexing
+var fish_basic_scenes = []
+var bomb_scene = preload("res://scenes/bombfish.tscn")
+var eel_scene = preload("res://scenes/eel.tscn")
+var jelly_scene = preload("res://scenes/jellyfish.tscn")
+var sword_scene = preload("res://scenes/swordfish.tscn")
+
 func _ready() -> void:
 	randomize()
-	# Preload fish scenes
-	fish_scenes = [
+	# Group the basic fish together
+	fish_basic_scenes = [
 		preload("res://scenes/fish.tscn"),
-		preload("res://scenes/bombfish.tscn"),
-		preload("res://scenes/eel.tscn"),
-		preload("res://scenes/jellyfish.tscn"),
-		preload("res://scenes/swordfish.tscn"),
-		# Add more fish scenes if available
+		preload("res://scenes/fish2.tscn"),
+		preload("res://scenes/fish3.tscn"),
+		preload("res://scenes/fish4.tscn"),
+		preload("res://scenes/fish5.tscn")
 	]
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if is_active:
 		spawn_timer -= delta
 		if spawn_timer <= 0:
-			spawn_fish()
+			try_spawn()
 			spawn_timer = spawn_interval
 
-func spawn_fish():
-	#number of active fish:
-	if get_child_count() >= 20:
+func try_spawn():
+	# 1. Check Global Limit
+	if get_tree().get_nodes_in_group("all_fish").size() >= max_total_fish:
 		return
-	var fish_scene = fish_scenes[randi() % fish_scenes.size()]
-	var fish = fish_scene.instantiate()
-	# Set random position on left or right side of the viewport
+
+	# 2. Pick a random category to attempt to spawn
+	# We use a weight-based list to decide what to try spawning
+	var categories = ["basic", "bomb", "eel", "jelly", "sword"]
+	var choice = categories[randi() % categories.size()]
+	
+	match choice:
+		"sword":
+			if get_tree().get_nodes_in_group("swordfish").size() < 2:
+				spawn_fish(sword_scene, "swordfish")
+		"eel":
+			if get_tree().get_nodes_in_group("eel").size() < 5:
+				spawn_fish(eel_scene, "eel")
+		"jelly":
+			if get_tree().get_nodes_in_group("jellyfish").size() < 6:
+				spawn_fish(jelly_scene, "jellyfish")
+		"bomb":
+			if get_tree().get_nodes_in_group("bombfish").size() < 6:
+				spawn_fish(bomb_scene, "bombfish")
+		"basic":
+			if get_tree().get_nodes_in_group("basic_fish").size() < 15:
+				var random_basic = fish_basic_scenes[randi() % fish_basic_scenes.size()]
+				spawn_fish(random_basic, "basic_fish")
+
+func spawn_fish(scene: PackedScene, group_name: String):
+	var fish = scene.instantiate()
+	
+	# Add to specific group and a general group for total count
+	fish.add_to_group(group_name)
+	fish.add_to_group("all_fish")
+	
 	var viewport_size = get_viewport().get_visible_rect().size
 	var side = randi() % 2
-	if side == 0:
-		fish.position = Vector2(0, randf() * viewport_size.y)
-	else:
-		fish.position = Vector2(viewport_size.x, randf() * viewport_size.y)
+	var spawn_pos = Vector2.ZERO
+	
+	if side == 0: # Left
+		spawn_pos = Vector2(-50, randf_range(50, viewport_size.y - 50))
+	else: # Right
+		spawn_pos = Vector2(viewport_size.x + 50, randf_range(50, viewport_size.y - 50))
+	
+	fish.position = spawn_pos
 	add_child(fish)

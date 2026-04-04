@@ -210,7 +210,7 @@ height = 31.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_s5ywd"]
 radius = 84.0
 
-[node name="Eel" type="CharacterBody2D" unique_id=2049099378]
+[node name="Eel" type="CharacterBody2D" unique_id=2049099378 groups=["eel"]]
 scale = Vector2(2, 2)
 script = ExtResource("1_s5ywd")
 

@@ -32,7 +32,7 @@ height = 26.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_8leqc"]
 radius = 108.5
 
-[node name="Fish" type="CharacterBody2D" unique_id=1133010845]
+[node name="Fish" type="CharacterBody2D" unique_id=1133010845 groups=["basic"]]
 scale = Vector2(2, 2)
 script = ExtResource("1_8leqc")
 

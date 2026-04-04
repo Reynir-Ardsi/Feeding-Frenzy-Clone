@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 @export var speed: float = 100
-@export var flee_speed: float = 150 
+@export var flee_speed: float = 100 
 @export var swim_change_interval: float = 2.0 
-@export var vertical_margin: float = 50.0 # How close to the edge before turning back
+@export var vertical_margin: float = 100.0 # How close to the edge before turning back
 
 var direction: Vector2 = Vector2.ZERO
 var state_timer: float = 0.0
@@ -13,7 +13,12 @@ var player: Node2D = null
 
 func _ready() -> void:
 	var viewport_size = get_viewport().get_visible_rect().size
-	target_x = viewport_size.x if position.x < viewport_size.x / 2 else 0
+	# Aim for 300 pixels PAST the screen edges
+	if global_position.x < viewport_size.x / 2:
+		target_x = viewport_size.x + 300 # Aim far right
+	else:
+		target_x = -300 # Aim far left
+		
 	set_random_direction()
 	$AnimatedSprite2D.play("swim")
 
@@ -34,7 +39,7 @@ func _process(delta: float) -> void:
 	# 3. MOVE & VISUALS
 	move_and_slide()
 	check_horizontal_despawn()
-	update_sprite_direction()
+	flip_check()
 
 func keep_in_vertical_bounds() -> void:
 	var viewport_size = get_viewport().get_visible_rect().size
@@ -49,21 +54,20 @@ func keep_in_vertical_bounds() -> void:
 
 func set_random_direction() -> void:
 	state_timer = swim_change_interval
-	var target_pos = Vector2(target_x, position.y + randf_range(-50, 50))
-	direction = (target_pos - position).normalized()
+	var target_pos = Vector2(target_x, global_position.y + randf_range(-50, 50))
+	direction = (target_pos - global_position).normalized()
 	direction += Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
 	direction = direction.normalized()
 
-func update_sprite_direction() -> void:
+func flip_check() -> void:
 	if velocity.x < -0.1:
 		$AnimatedSprite2D.flip_h = true
 	elif velocity.x > 0.1:
 		$AnimatedSprite2D.flip_h = false
-
+		
 func check_horizontal_despawn() -> void:
-	var viewport_size = get_viewport().get_visible_rect().size
-	# We only queue_free on the sides (X axis)
-	if position.x < -200 or position.x > viewport_size.x + 200:
+	var screen_width = get_viewport_rect().size.x
+	if global_position.x < -250 or global_position.x > screen_width + 250:
 		queue_free()
 
 # --- SENSORS ---
