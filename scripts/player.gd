@@ -118,10 +118,9 @@ func die() -> void:
 		return
 	is_dead = true
 	velocity = Vector2.ZERO
-	if $AnimatedSprite2D.frames.has_animation("dead"):
-		$AnimatedSprite2D.play("dead")
-	else:
-		$AnimatedSprite2D.stop()
+	$AnimatedSprite2D.play("dead")
+
+	
 
 func bite():
 	if $AnimatedSprite2D.is_playing("swim_up"):

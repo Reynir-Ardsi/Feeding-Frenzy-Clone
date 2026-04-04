@@ -4,11 +4,12 @@ extends CharacterBody2D
 @export var flee_speed: float = 150 # Scared fish are faster
 @export var attack_range: float = 150
 @export var max_hp: int = 3
-@export var attack_duration: float = 0.8
+@export var attack_duration: float
 @export var knockback_strength: float = 200
 @export var knockback_duration: float = 0.2
 @export var attack_interval: float = 2.0
 @export var vertical_margin: float = 50.0
+@export var is_fleeing: bool
 
 # Added FLEEING to the enum
 enum {PASSIVE, ATTACKING, HURT, DEAD, SWIM, IDLE, FLEEING}
@@ -27,6 +28,7 @@ var knockback_timer: float = 0.0
 
 func _ready() -> void:
 	randomize()
+	attack_duration = randf_range(0.8, 3.0)
 	var viewport_size = get_viewport().get_visible_rect().size
 	target_x = viewport_size.x if position.x < viewport_size.x / 2 else 0
 	hp = max_hp
@@ -34,38 +36,37 @@ func _ready() -> void:
 	change_state(IDLE)
 
 func _process(delta: float) -> void:
+	# 1. RUN THE STATE LOGIC (Animations/Timers)
 	match state:
-		IDLE:
-			state_idle(delta)
-		SWIM:
-			state_swim(delta)
-		FLEEING:
-			state_fleeing(delta)
-		ATTACKING:
-			state_attacking(delta)
-		HURT:
-			state_hurt(delta)
-		DEAD:
-			return
+		IDLE: state_idle(delta)
+		SWIM: state_swim(delta)
+		ATTACKING: state_attacking(delta)
+		HURT: state_hurt(delta)
+		DEAD: return
 
-	flip_check()
-	keep_in_vertical_bounds()
-
-	# Apply movement
+	# 2. CALCULATE DIRECTION & VELOCITY
 	if knockback_timer > 0:
+		# Knockback takes priority over everything
 		velocity = knockback_vector
 		knockback_timer -= delta
 	else:
-		if state != DEAD:
-			# Use flee_speed if fleeing, otherwise normal speed
-			var current_speed = flee_speed if state == FLEEING else speed
-			velocity = direction * current_speed
+		# Determine direction
+		if is_fleeing and player:
+			direction = (global_position - player.global_position).normalized()
+			velocity = direction * flee_speed
+		else:
+			# Normal state-based speed (IDLE/SWIM)
+			velocity = direction * speed
 
+	# 3. PHYSICS & BOUNDARIES
 	move_and_slide()
+	flip_check()
+	keep_in_vertical_bounds()
 	check_boundaries()
 
-	# Only cooldown attack if NOT fleeing
-	if state not in [DEAD, ATTACKING, HURT, FLEEING]:
+	# 4. ATTACK COOLDOWN
+	# We removed "FLEEING" from the list so it can attack while running!
+	if state not in [DEAD, ATTACKING, HURT]:
 		attack_cooldown_timer -= delta
 		if attack_cooldown_timer <= 0:
 			change_state(ATTACKING)
@@ -74,13 +75,6 @@ func _process(delta: float) -> void:
 # --------------------
 # STATE FUNCTIONS
 # --------------------
-
-func state_fleeing(delta: float):
-	if player:
-		# Keep updating direction to move AWAY from player
-		direction = (global_position - player.global_position).normalized()
-	else:
-		change_state(SWIM)
 
 # (Other state functions like idle/swim remain the same)
 func state_idle(delta: float):
@@ -118,6 +112,7 @@ func change_state(new_state: int) -> void:
 			$AnimatedSprite2D.play("swim") # Use swim anim for fleeing
 		ATTACKING:
 			state_timer = attack_duration
+			
 			$AnimatedSprite2D.play("attack")
 		HURT:
 			if player:
@@ -133,6 +128,12 @@ func change_state(new_state: int) -> void:
 # --------------------
 # HELPERS
 # --------------------
+
+func current_action():
+	if state != ATTACKING:
+		take_damage(1)
+	#else:
+		#$Player.hit(stun)
 
 func set_random_direction():
 	var target_pos = Vector2(target_x, position.y + randf_range(-50, 50))
@@ -168,12 +169,12 @@ func take_damage(amount: int = 1):
 func _on_flee_area_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
-		change_state(FLEEING)
+		is_fleeing = true
 
 func _on_flee_area_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
-		change_state(SWIM)
+		is_fleeing = false
 
-func _on_hit_area_entered(body: Node2D) -> void:
+func _on_hit_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		take_damage(1)
+		current_action()

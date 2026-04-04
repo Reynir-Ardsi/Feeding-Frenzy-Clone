@@ -3,12 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://bvl1qm5paoqi7" path="res://scenes/player.tscn" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://bp73rcgq3xmwt" path="res://scripts/main.gd" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://h5448jtjgf6a" path="res://scenes/background.tscn" id="2_sugp2"]
-[ext_resource type="PackedScene" uid="uid://fwilot6xf4pp" path="res://scenes/fish5.tscn" id="11_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://dt6ppj6nnw3w0" path="res://scenes/eel.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://1rf3e5nbxgus" path="res://scenes/statbar.tscn" id="12_eb6dy"]
 [ext_resource type="Script" uid="uid://djvfmscgjlgi2" path="res://scripts/spawner.gd" id="13_spawner"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
-size = Vector2(1920, 20)
 
 [node name="Main" type="Node2D" unique_id=1851467715]
 position = Vector2(1, 0)
@@ -19,22 +16,10 @@ position = Vector2(-60, 159)
 
 [node name="Background" parent="." unique_id=872687925 instance=ExtResource("2_sugp2")]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1520075181]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1011942486]
-position = Vector2(948, 0)
-shape = SubResource("RectangleShape2D_tefeu")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1939729950]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=1172694577]
-position = Vector2(958, 1082)
-shape = SubResource("RectangleShape2D_tefeu")
-
 [node name="Statbar" parent="." unique_id=1930648704 instance=ExtResource("12_eb6dy")]
 
-[node name="Fish" parent="." unique_id=1133010845 instance=ExtResource("11_a8y0u")]
-position = Vector2(785, 552)
-
-[node name="Spawner" type="Node" parent="." unique_id=9876543210]
+[node name="Spawner" type="Node" parent="." unique_id=1286608618]
 script = ExtResource("13_spawner")
+
+[node name="Eel" parent="." unique_id=2049099378 instance=ExtResource("6_tefeu")]
+position = Vector2(877, 564)
