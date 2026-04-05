@@ -122,7 +122,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0pekf"]
-radius = 16.03122
+radius = 10.4
 
 [node name="Bombfish" type="CharacterBody2D" unique_id=1459651853]
 z_index = 9
@@ -132,7 +132,7 @@ script = ExtResource("1_gnof7")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=482288199]
 sprite_frames = SubResource("SpriteFrames_ebxpl")
 animation = &"dead"
-frame_progress = 0.8275233
+frame_progress = 0.6092422
 
 [node name="Area2D" type="Area2D" parent="." unique_id=935022804]
 

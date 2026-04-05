@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var speed: float = 100
 @export var flee_speed: float = 100 
 @export var swim_change_interval: float = 2.0 
-@export var vertical_margin: float = 100.0 # How close to the edge before turning back
+@export var vertical_margin: float = 300.0 # How close to the edge before turning back
 @export var food_value: float = 5.0
 
 var direction: Vector2 = Vector2.ZERO

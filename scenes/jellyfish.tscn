@@ -175,9 +175,13 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kha3f"]
+radius = 6.333334
+height = 20.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0tvrc"]
-radius = 5.0
-height = 16.0
+radius = 4.3333335
+height = 13.333334
 
 [node name="Jellyfish" type="CharacterBody2D" unique_id=1803074934]
 scale = Vector2(3, 3)
@@ -185,21 +189,19 @@ script = ExtResource("1_kha3f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1571600969]
 sprite_frames = SubResource("SpriteFrames_ktaa2")
-animation = &"hurt"
-frame = 1
-frame_progress = 1.0
+animation = &"idle"
 
 [node name="head" type="Area2D" parent="." unique_id=1014678734]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="head" unique_id=1372095482]
-position = Vector2(1, -7)
+position = Vector2(1.0000001, -5)
 rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_0tvrc")
+shape = SubResource("CapsuleShape2D_kha3f")
 
 [node name="tail" type="Area2D" parent="." unique_id=1172631150]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="tail" unique_id=128378562]
-position = Vector2(1, 6)
+position = Vector2(0.6666667, 8.333333)
 shape = SubResource("CapsuleShape2D_0tvrc")
 
 [connection signal="body_entered" from="head" to="." method="_on_head_body_entered"]
