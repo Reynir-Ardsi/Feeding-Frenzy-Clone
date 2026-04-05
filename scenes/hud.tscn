@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://1rf3e5nbxgus"]
+
+[ext_resource type="Texture2D" uid="uid://bxoq44ceott4u" path="res://assets/UI/StatBar/HPContainer.png" id="1_upjvh"]
+[ext_resource type="Script" uid="uid://dpvbas5ibpbx2" path="res://scripts/hud.gd" id="1_wcq4p"]
+[ext_resource type="Texture2D" uid="uid://oc3e8skyoqbi" path="res://assets/UI/StatBar/HPBar1.png" id="2_wcq4p"]
+[ext_resource type="Texture2D" uid="uid://dpsc54ihvl50v" path="res://assets/UI/StatBar/StaminaContainer.png" id="3_wrruo"]
+[ext_resource type="Texture2D" uid="uid://cr1x2w0sv0jvq" path="res://assets/UI/StatBar/StaminaBar1.png" id="4_obccc"]
+[ext_resource type="FontFile" uid="uid://c8bb6qcf4riaj" path="res://assets/ka1.ttf" id="6_wrruo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_obccc"]
+font = ExtResource("6_wrruo")
+font_size = 110
+
+[sub_resource type="LabelSettings" id="LabelSettings_047uy"]
+font = ExtResource("6_wrruo")
+font_size = 60
+
+[node name="HUD" type="Node2D" unique_id=1930648704]
+script = ExtResource("1_wcq4p")
+
+[node name="HPBar" type="TextureProgressBar" parent="." unique_id=2023162964]
+offset_left = 1.0
+offset_top = 5.0
+offset_right = 779.0
+offset_bottom = 82.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("1_upjvh")
+texture_progress = ExtResource("2_wcq4p")
+
+[node name="HUNGERBar" type="TextureProgressBar" parent="." unique_id=394456187]
+offset_left = 1139.0
+offset_top = 2.0
+offset_right = 1907.0
+offset_bottom = 78.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("3_wrruo")
+texture_progress = ExtResource("4_obccc")
+
+[node name="Button" type="Button" parent="." unique_id=1342702017]
+offset_left = 726.0
+offset_top = 598.0
+offset_right = 1178.0
+offset_bottom = 751.0
+theme_override_fonts/font = ExtResource("6_wrruo")
+theme_override_font_sizes/font_size = 60
+text = "Start"
+
+[node name="Title" type="Label" parent="." unique_id=2057353009]
+offset_left = 339.0
+offset_top = 382.0
+offset_right = 1593.0
+offset_bottom = 633.0
+text = "Fins and Scales
+"
+label_settings = SubResource("LabelSettings_obccc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Label" parent="." unique_id=199796091]
+offset_left = 818.0
+offset_top = 10.0
+offset_right = 1116.0
+offset_bottom = 94.0
+text = "03 - 00"
+label_settings = SubResource("LabelSettings_047uy")
+
+[node name="Score" type="Label" parent="." unique_id=753293327]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

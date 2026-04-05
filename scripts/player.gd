@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal died
+
 @export var speed: float = 400
 @export var dash_speed: float = 900
 @export var dash_duration: float = 0.2
@@ -13,6 +15,7 @@ var hunger: float = 100.0
 var hunger_depletion_rate: float = 5.0
 var health_drain_rate: float = 6.0
 var is_dead: bool = false
+var game_active: bool = false
 
 enum {IDLE, SWIM, BITE, SWIMUP, SWIMDOWN}
 var state: int = IDLE
@@ -28,9 +31,11 @@ func _ready() -> void:
 	var screen_size = get_viewport_rect().size
 	global_position = screen_size / 2
 	change_state(IDLE)
+	game_active = false
+	$AnimatedSprite2D.hide()
 
 func _process(delta: float) -> void:
-	if is_dead:
+	if not game_active or is_dead:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
@@ -128,19 +133,23 @@ func die() -> void:
 	if is_dead:
 		return
 	is_dead = true
+	game_active = false
 	velocity = Vector2.ZERO
 	$AnimatedSprite2D.play("dead")
+	emit_signal("died")
 
-	
+func start_game() -> void:
+	is_dead = false
+	game_active = true
+	$AnimatedSprite2D.show()
 
-func bite():
-	if $AnimatedSprite2D.is_playing("swim_up"):
-		$AnimatedSprite2D.stop()
-		$AnimatedSprite2D.play("bite_up")
-	elif $AnimatedSprite2D.is_playing("swim_down"):
-		$AnimatedSprite2D.stop()
-		$AnimatedSprite2D.play("bite_down")
-	else:  
-		$AnimatedSprite2D.stop()
-		$AnimatedSprite2D.play("bite") 
-	
+func reset() -> void:
+	hp = 100.0
+	hunger = 100.0
+	is_dead = false
+	game_active = true
+	velocity = Vector2.ZERO
+	change_state(IDLE)
+	$AnimatedSprite2D.play("idle")
+	var screen_size = get_viewport_rect().size
+	global_position = screen_size / 2
