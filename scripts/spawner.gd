@@ -2,8 +2,8 @@ extends Node
 
 var is_active = true # Set to true to start spawning
 var spawn_timer = 0.0
-var spawn_interval = 1.5 # Adjusted for better flow
-var max_total_fish = 30
+var spawn_interval = 1.0 # Adjusted for better flow
+var max_total_fish = 40
 
 # Define scenes manually for easier indexing
 var fish_basic_scenes = []
