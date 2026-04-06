@@ -97,14 +97,6 @@ func explode():
 	# Play explosion animation if exists
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.play("dead")
-
-	# Damage nearby player(s)
-	var players = get_tree().get_nodes_in_group("player")
-	for p in players:
-		if p.global_position.distance_to(global_position) <= explosion_radius:
-			if p.has_method("take_damage"):
-				p.take_damage(1)
-
 	# Remove after short delay
 	await get_tree().create_timer(0.3).timeout
 	queue_free()
@@ -114,5 +106,6 @@ func _on_area_2d_body_shape_entered(body_rid: RID, body: Node2D, body_shape_inde
 	if exploded:
 		return
 	
-	if body.name == "Player":  # adjust if needed
+	if body.has_method("take_damage"):
+		body.take_damage(40)
 		change_state(DEAD)

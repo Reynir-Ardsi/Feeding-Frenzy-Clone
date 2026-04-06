@@ -150,9 +150,13 @@ func flip_check():
 	elif velocity.x > 0.1:
 		$AnimatedSprite2D.flip_h = true
 
-func hit(damage):
+func take_damage(amount: float) -> void:
+	if is_dead or amount <= 0:
+		return
+	
 	play_hit_sound()
-	hp = max(hp - damage, 0.0)
+	hp = max(hp - amount, 0.0)
+	
 	if hp == 0.0:
 		die()
 

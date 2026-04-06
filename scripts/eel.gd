@@ -191,6 +191,17 @@ func _on_flee_area_body_exited(body: Node2D) -> void:
 		is_fleeing = false
 
 func _on_hit_area_body_entered(body: Node2D) -> void:
-	if body.name == "Player" or body.is_in_group("player"):
-		mark_attacker(body)
-		current_action()
+	if not (body.name == "Player" or body.is_in_group("player")):
+		return
+	
+	# Remember who hit us (for feeding on death)
+	mark_attacker(body)
+	player = body
+	
+	# ONLY damage player if we are attacking
+	if state == ATTACKING:
+		if body.has_method("take_damage"):
+			body.take_damage(10)
+	else:
+		# If not attacking, we take damage instead (player hit us)
+		take_damage(1)

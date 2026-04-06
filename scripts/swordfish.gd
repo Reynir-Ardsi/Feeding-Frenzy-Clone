@@ -12,6 +12,8 @@ extends CharacterBody2D
 enum {IDLE, SWIM, HURT, ATTACK, DEAD, CHASE, DASH}
 var state: int = IDLE
 
+var has_hit_player: bool = false
+
 var hp: int
 var direction: Vector2 = Vector2.ZERO
 var state_timer: float = 0.0
@@ -138,6 +140,7 @@ func change_state(new_state: int) -> void:
 
 		DASH:
 			state_timer = dash_duration
+			has_hit_player = false
 			$AnimatedSprite2D.play("attack")
 
 		HURT:
@@ -162,6 +165,7 @@ func change_state(new_state: int) -> void:
 
 		ATTACK:
 			state_timer = 0.4
+			has_hit_player = false
 			$AnimatedSprite2D.play("attack")
 
 		DEAD:
@@ -240,3 +244,15 @@ func _on_hit_detection_body_entered(body: Node) -> void:
 
 func _on_sword_body_entered(body: Node) -> void:
 	pass  # currently does nothing
+
+func _on_head_body_entered(body: Node) -> void:
+	if state == DEAD:
+		return
+	
+	if body.is_in_group("player"):
+		target = body
+		
+		# Damage the player
+		if body.has_method("take_damage"):
+			body.take_damage(10)
+			has_hit_player = true
