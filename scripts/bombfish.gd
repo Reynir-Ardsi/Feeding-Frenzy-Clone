@@ -107,5 +107,5 @@ func _on_area_2d_body_shape_entered(body_rid: RID, body: Node2D, body_shape_inde
 		return
 	
 	if body.has_method("take_damage"):
-		body.take_damage(40)
+		body.take_damage(20)
 		change_state(DEAD)
