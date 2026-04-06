@@ -74,6 +74,12 @@ func _process(delta: float) -> void:
 	if state_timer > 0:
 		state_timer -= delta
 
+	# If game is not active, stop movement
+	if not game_active:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	
 	# Handle DEAD state
 	if state == DEAD:
 		velocity = Vector2.ZERO
@@ -162,6 +168,7 @@ func change_state(new_state: int) -> void:
 			$AnimatedSprite2D.play("swim-down")
 		DEAD:
 			$AnimatedSprite2D.play("dead")
+			die()
 		HURT:
 			$AnimatedSprite2D.play("hurt")
 			
@@ -221,9 +228,26 @@ func die() -> void:
 	emit_signal("died")
 
 func start_game() -> void:
+	# Reset core gameplay state
 	is_dead = false
 	game_active = true
+	hp = 100.0
+	hunger = 100.0
+	state = IDLE
+	state_timer = 0.0
+	is_dashing = false
+	dash_timer = 0.0
+	dash_cooldown_timer = 0.0
+	can_dash = true
+	velocity = Vector2.ZERO
+
+	# Reset sprite
 	$AnimatedSprite2D.show()
+	change_state(IDLE)
+
+	# Optionally, center player
+	var screen_size = get_viewport_rect().size
+	global_position = screen_size / 2
 
 func reset() -> void:
 	hp = 100.0

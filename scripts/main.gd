@@ -12,7 +12,7 @@ func _ready() -> void:
 	hud.show_labels()
 	hud.hide_stats()
 	spawner.is_active = false
-	player.game_active = false
+	game_active = false
 
 	# Create background music player
 	bg_music = AudioStreamPlayer.new()
