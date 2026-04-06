@@ -174,8 +174,8 @@ func flip_check():
 
 func take_damage(amount: int = 1):
 	if state == DEAD or state == HURT: return
-	hp -= amount
 	change_state(DEAD if hp <= 0 else HURT)
+	hp -= amount
 
 # --------------------
 # SIGNALS
@@ -201,7 +201,7 @@ func _on_hit_area_body_entered(body: Node2D) -> void:
 	# ONLY damage player if we are attacking
 	if state == ATTACKING:
 		if body.has_method("take_damage"):
-			body.take_damage(10)
+			body.take_damage(5)
 	else:
 		# If not attacking, we take damage instead (player hit us)
 		take_damage(1)

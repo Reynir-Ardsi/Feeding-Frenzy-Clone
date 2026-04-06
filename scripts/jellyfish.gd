@@ -184,4 +184,7 @@ func _on_tail_body_entered(body: Node) -> void:
 	
 	if body.is_in_group("player"):
 		target = body
-		change_state(ATTACK)
+		
+		# Damage the player
+		if body.has_method("take_damage"):
+			body.take_damage(10)

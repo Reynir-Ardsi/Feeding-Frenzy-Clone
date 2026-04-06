@@ -264,5 +264,5 @@ func _on_head_body_entered(body: Node) -> void:
 		target = body
 		
 		# Damage the player
-		if body.has_method("hit"):
-			body.hit(10)
+		if body.has_method("take_damage"):
+			body.take_damage(10)

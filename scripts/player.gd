@@ -14,8 +14,9 @@ var health_drain_rate: float = 3.0
 var is_dead: bool = false
 var game_active: bool = false
 
-enum {IDLE, SWIM, DEAD, SWIMUP, SWIMDOWN}
+enum {IDLE, SWIM, DEAD, SWIMUP, SWIMDOWN, HURT}
 var state: int = IDLE
+var state_timer: float 
 
 var is_dashing: bool = false
 var dash_timer: float = 0.0
@@ -69,6 +70,7 @@ func _ready() -> void:
 	$AnimatedSprite2D.hide()
 
 func _process(delta: float) -> void:
+	state_timer -= delta
 	if not game_active or is_dead:
 		velocity = Vector2.ZERO
 		change_state(DEAD)
@@ -135,6 +137,7 @@ func _process(delta: float) -> void:
 
 # State handling
 func change_state(new_state: int) -> void:
+	#if state == DEAD: return
 	state = new_state
 	match state:
 		IDLE:
@@ -147,6 +150,10 @@ func change_state(new_state: int) -> void:
 			$AnimatedSprite2D.play("swim-down")
 		DEAD:
 			$AnimatedSprite2D.play("dead")
+		HURT:
+			$AnimatedSprite2D.play("hurt")
+			play_hit_sound()
+			
 
 # Flip logic
 func flip_check():
@@ -156,14 +163,15 @@ func flip_check():
 		$AnimatedSprite2D.flip_h = true
 
 func take_damage(amount: float) -> void:
-	if is_dead or amount <= 0:
+	if state == DEAD or state == HURT:
 		return
-	
-	play_hit_sound()
+
 	hp = max(hp - amount, 0.0)
 	
-	if hp == 0.0:
-		die()
+	if hp > 0:
+		change_state(HURT)	
+	else:
+		change_state(DEAD)
 
 func apply_nutrition(amount: float) -> void:
 	if is_dead or amount <= 0.0:
