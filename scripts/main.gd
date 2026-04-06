@@ -39,6 +39,7 @@ func start_game() -> void:
 	hud.show_stats()
 	hud.set_start_button_text("Restart")
 	hud.set_start_button_enabled(false)
+	hud.start_timer()
 
 func restart_game() -> void:
 	clear_all_fish()
@@ -51,6 +52,9 @@ func _on_player_died() -> void:
 	hud.set_start_button_text("Restart")
 	hud.set_start_button_enabled(true)
 	hud.show_labels()
+	hud.show_title()
+	hud.stop_timer()
+	hud.set_title()
 
 func clear_all_fish() -> void:
 	for fish in get_tree().get_nodes_in_group("all_fish"):

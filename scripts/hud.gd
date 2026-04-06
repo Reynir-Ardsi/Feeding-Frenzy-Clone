@@ -69,6 +69,17 @@ func show_labels() -> void:
 	$Button.show()
 	$Score.show()
 
-
 func _on_timer_timeout() -> void:
 	seconds += 1
+
+func start_timer() -> void:
+	$Timer.start()
+
+func stop_timer() -> void:
+	$Timer.stop()
+	
+func set_title() -> void:
+	$Title.text = "Game Over"
+
+func show_title() -> void:
+	$Title.show()

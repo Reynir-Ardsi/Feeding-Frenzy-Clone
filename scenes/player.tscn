@@ -399,10 +399,6 @@ radius = 12.0
 z_index = 100
 scale = Vector2(2, 2)
 script = ExtResource("1_tuyoq")
-speed = null
-dash_speed = null
-dash_duration = null
-dash_cooldown = null
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=378170216]
