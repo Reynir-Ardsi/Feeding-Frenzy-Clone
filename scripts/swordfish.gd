@@ -151,10 +151,10 @@ func change_state(new_state: int) -> void:
 				knockback_timer = knockback_duration
 				# Face player
 				if target.global_position.x > global_position.x:
-					$AnimatedSprite2D.flip_h = true
+					$AnimatedSprite2D.flip_h = false
 					flip_collision_shapes(true)
 				else:
-					$AnimatedSprite2D.flip_h = false
+					$AnimatedSprite2D.flip_h = true
 					flip_collision_shapes(false)
 					
 				
@@ -228,10 +228,6 @@ func _on_tail_body_entered(body: Node) -> void:
 		target = body
 		mark_attacker(body)
 		take_damage(1)
-		if $AnimatedSprite2D.flip_h == true:
-			$AnimatedSprite2D.flip_h = false
-		elif $AnimatedSprite2D.flip_h == false:
-			$AnimatedSprite2D.flip_h = true
 			
 
 func _on_hit_detection_body_entered(body: Node) -> void:
