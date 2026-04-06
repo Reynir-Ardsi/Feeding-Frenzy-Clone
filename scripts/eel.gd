@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var knockback_strength: float = 200
 @export var knockback_duration: float = 0.2
 @export var attack_interval: float = 2.0
-@export var vertical_margin: float = 50.0
+@export var vertical_margin: float = 300.0
 @export var is_fleeing: bool
 
 # Added FLEEING to the enum

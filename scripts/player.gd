@@ -10,7 +10,7 @@ signal died
 var hp: float
 var hunger: float = 100.0
 var hunger_depletion_rate: float = 6.0
-var health_drain_rate: float = 3 .0
+var health_drain_rate: float = 3.0
 var is_dead: bool = false
 var game_active: bool = false
 

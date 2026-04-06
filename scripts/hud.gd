@@ -6,6 +6,8 @@ signal button_pressed
 @onready var hp_bar = $HPBar
 @onready var hunger_bar = $HUNGERBar
 @onready var start_button = find_start_button()
+@onready var seconds: int = 0
+@onready var minutes: int = 0
 
 func _ready() -> void:
 	hp_bar.max_value = 100
@@ -20,7 +22,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	hp_bar.value = player.hp
 	hunger_bar.value = player.hunger
+	
+	if seconds == 60:
+		minutes += 1
+		seconds = 0
 
+	$Time.text = "%02d - %02d" % [minutes, seconds]
+	
 # --------------------
 #       SIGNALS
 # --------------------
@@ -60,3 +68,7 @@ func hide_labels() -> void:
 func show_labels() -> void:
 	$Button.show()
 	$Score.show()
+
+
+func _on_timer_timeout() -> void:
+	seconds += 1

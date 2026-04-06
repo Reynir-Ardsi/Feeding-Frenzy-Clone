@@ -42,7 +42,7 @@ func try_spawn():
 	
 	match choice:
 		"sword":
-			if get_tree().get_nodes_in_group("swordfish").size() < 2:
+			if get_tree().get_nodes_in_group("swordfish").size() < 3:
 				spawn_fish(sword_scene, "swordfish")
 		"eel":
 			if get_tree().get_nodes_in_group("eel").size() < 5:
@@ -51,10 +51,10 @@ func try_spawn():
 			if get_tree().get_nodes_in_group("jellyfish").size() < 5:
 				spawn_fish(jelly_scene, "jellyfish")
 		"bomb":
-			if get_tree().get_nodes_in_group("bombfish").size() < 4:
+			if get_tree().get_nodes_in_group("bombfish").size() < 5:
 				spawn_fish(bomb_scene, "bombfish")
 		"basic":
-			if get_tree().get_nodes_in_group("basic_fish").size() < 20:
+			if get_tree().get_nodes_in_group("basic_fish").size() < 25:
 				var random_basic = fish_basic_scenes[randi() % fish_basic_scenes.size()]
 				spawn_fish(random_basic, "basic_fish")
 

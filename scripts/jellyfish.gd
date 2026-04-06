@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var knockback_strength: float = 150.0
 @export var knockback_duration: float = 0.2
 @export var max_hp: int = 2
+@export var vertical_margin: int = 300
 
 signal hit
 
@@ -58,6 +59,7 @@ func _process(delta: float) -> void:
 		velocity = knockback_vector
 		knockback_timer -= delta
 
+	keep_in_vertical_bounds()
 	move_and_slide()
 
 	# Despawn if outside screen
@@ -152,6 +154,17 @@ func take_damage(amount: int = 1):
 		change_state(DEAD)
 	else:
 		change_state(HURT)
+
+func keep_in_vertical_bounds() -> void:
+	var viewport_size = get_viewport().get_visible_rect().size
+	
+	# If too high (near Y=0), force direction to go DOWN (positive Y)
+	if global_position.y < vertical_margin:
+		direction.y = abs(direction.y) # Make Y positive
+	
+	# If too low (near bottom), force direction to go UP (negative Y)
+	elif global_position.y > viewport_size.y - vertical_margin:
+		direction.y = -abs(direction.y) # Make Y negative
 
 # --------------------
 # COLLISION HANDLERS

@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var min_state_time: float = 1.0
 @export var max_state_time: float = 3.0
 @export var explosion_radius: float = 120
+@export var vertical_margin: int = 300
 
 enum {IDLE, SWIM, DEAD}
 var state: int = IDLE
@@ -42,7 +43,7 @@ func _process(delta: float) -> void:
 			elif velocity.x > 0.1:
 				$AnimatedSprite2D.flip_h = false
 				
-
+	keep_in_vertical_bounds()
 	move_and_slide()
 
 	# Despawn if outside screen
@@ -75,13 +76,16 @@ func set_random_direction():
 	direction = (target_pos - global_position).normalized() + Vector2(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3))
 	direction = direction.normalized()
 
-# Collision trigger
-#func _on_body_entered(body: Node) -> void:
-	#if exploded:
-		#return
-	#
-	#if body.name == "Player":  # adjust if needed
-		#change_state(DEAD)
+func keep_in_vertical_bounds() -> void:
+	var viewport_size = get_viewport().get_visible_rect().size
+	
+	# If too high (near Y=0), force direction to go DOWN (positive Y)
+	if global_position.y < vertical_margin:
+		direction.y = abs(direction.y) # Make Y positive
+	
+	# If too low (near bottom), force direction to go UP (negative Y)
+	elif global_position.y > viewport_size.y - vertical_margin:
+		direction.y = -abs(direction.y) # Make Y negative
 
 # Explosion logic
 func explode():
