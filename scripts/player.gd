@@ -70,29 +70,41 @@ func _ready() -> void:
 	$AnimatedSprite2D.hide()
 
 func _process(delta: float) -> void:
-	state_timer -= delta
-	if not game_active or is_dead:
+	# Decrease state timer every frame
+	if state_timer > 0:
+		state_timer -= delta
+
+	# Handle DEAD state
+	if state == DEAD:
 		velocity = Vector2.ZERO
-		change_state(DEAD)
 		move_and_slide()
+		flip_check()
 		return
+
+	# Handle HURT state (lock movement & dash)
+	if state == HURT and state_timer > 0:
+		move_and_slide()  # keep knockback if set
+		flip_check()
+		return
+	elif state == HURT and state_timer <= 0:
+		# Once hurt timer is done, return to normal movement
+		change_state(IDLE)
 
 	# Hunger drains over time
 	hunger = max(hunger - hunger_depletion_rate * delta, 0.0)
 	if hunger <= 0.0:
 		can_dash = false
 		hp = max(hp - health_drain_rate * delta, 0.0)
-		if hp == 0.0:
+		if hp <= 0:
 			die()
-	
-	if hunger > 0:
+	else:
 		can_dash = true
-		
+
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position)
 	var distance = direction.length()
 
-	# Update timers
+	# Update dash timers
 	if dash_timer > 0:
 		dash_timer -= delta
 		if dash_timer <= 0:
@@ -102,9 +114,9 @@ func _process(delta: float) -> void:
 		dash_cooldown_timer -= delta
 
 	# Dash input (Space or Right Mouse)
-	if not is_dashing and dash_cooldown_timer <= 0:
+	if not is_dashing and dash_cooldown_timer <= 0 and can_dash:
 		if Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-			if distance > 5 and can_dash:
+			if distance > 5:
 				play_dash_sound()
 				hunger -= 1
 				dash_direction = direction.normalized()
@@ -120,6 +132,7 @@ func _process(delta: float) -> void:
 			direction = direction.normalized()
 			velocity = direction * speed
 
+			# Choose animation based on vertical movement
 			if velocity.y < -150:
 				change_state(SWIMUP)
 			elif velocity.y > 150:
@@ -129,10 +142,9 @@ func _process(delta: float) -> void:
 		else:
 			velocity = Vector2.ZERO
 			change_state(IDLE)
-	
-	move_and_slide()
 
-	# Flip
+	# Apply movement & flip
+	move_and_slide()
 	flip_check()
 
 # State handling
@@ -152,7 +164,7 @@ func change_state(new_state: int) -> void:
 			$AnimatedSprite2D.play("dead")
 		HURT:
 			$AnimatedSprite2D.play("hurt")
-			play_hit_sound()
+			
 			
 
 # Flip logic
@@ -165,12 +177,18 @@ func flip_check():
 func take_damage(amount: float) -> void:
 	if state == DEAD or state == HURT:
 		return
-
+	
+	play_hit_sound()
 	hp = max(hp - amount, 0.0)
 	
 	if hp > 0:
-		change_state(HURT)	
+		# Set HURT state with a timer to lock animation
+		state_timer = 0.5  # match your hurt animation length
+		velocity = Vector2.ZERO  # optional: add knockback if needed
+		change_state(HURT)
 	else:
+		# Set DEAD state with optional delay for animation
+		state_timer = 0.5
 		change_state(DEAD)
 
 func apply_nutrition(amount: float) -> void:
