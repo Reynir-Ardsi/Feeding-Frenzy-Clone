@@ -24,6 +24,8 @@ var target_x: float
 var last_attacker: Node = null
 const FOOD_PER_HP: float = 50.0
 
+@onready var attack_sfx: AudioStreamPlayer
+
 func get_food_value() -> float:
 	return float(max_hp) * FOOD_PER_HP
 
@@ -41,6 +43,11 @@ func _ready() -> void:
 	target_x = viewport_size.x if global_position.x < viewport_size.x / 2 else 0
 	hp = max_hp
 	change_state(IDLE)
+	
+	# Add attack sound player
+	attack_sfx = AudioStreamPlayer.new()
+	add_child(attack_sfx)
+	attack_sfx.stream = load("res://assets/sfx/swordfish-attack-sfx.mp3")
 
 func _process(delta: float) -> void:
 	match state:
@@ -232,6 +239,10 @@ func _on_tail_body_entered(body: Node) -> void:
 		target = body
 		mark_attacker(body)
 		take_damage(1)
+		# Play attack sound when hit
+		attack_sfx.play()
+		await get_tree().create_timer(0.84).timeout
+		attack_sfx.stop()
 			
 
 func _on_hit_detection_body_entered(body: Node) -> void:
@@ -253,6 +264,5 @@ func _on_head_body_entered(body: Node) -> void:
 		target = body
 		
 		# Damage the player
-		if body.has_method("take_damage"):
-			body.take_damage(10)
-			has_hit_player = true
+		if body.has_method("hit"):
+			body.hit(10)
