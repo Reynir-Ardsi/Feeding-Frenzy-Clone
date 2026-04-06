@@ -22,6 +22,43 @@ var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
 var dash_direction: Vector2 = Vector2.ZERO
 
+@onready var sfx: AudioStreamPlayer = $SFX
+
+var dash_sounds = [
+	preload("res://assets/sfx/dash1.wav"),
+	preload("res://assets/sfx/dash2.wav"),
+	preload("res://assets/sfx/dash3.wav"),
+	preload("res://assets/sfx/dash4.wav")
+]
+func play_dash_sound():
+	var random_dash_sound = dash_sounds.pick_random()
+	sfx.stream = random_dash_sound
+	sfx.play()
+
+
+var eat_sounds = [
+	preload("res://assets/sfx/eat1.wav"),
+	preload("res://assets/sfx/eat2.mp3")
+]
+func play_eat_sound():
+	var random_eat_sound = eat_sounds.pick_random()
+	sfx.stream = random_eat_sound
+	sfx.play()
+
+var hit_sounds = [
+	preload("res://assets/sfx/hit1.mp3"),
+	preload("res://assets/sfx/hit2.mp3")
+]
+func play_hit_sound():
+	var random_hit_sound = hit_sounds.pick_random()
+	sfx.stream = random_hit_sound
+	sfx.play()
+
+var death_sound = preload("res://assets/sfx/death.mp3")
+func play_death_sound():
+	sfx.stream = death_sound
+	sfx.play()
+	
 func _ready() -> void:
 	hp = 100.0
 	hunger = 100.0
@@ -62,6 +99,7 @@ func _process(delta: float) -> void:
 	if not is_dashing and dash_cooldown_timer <= 0:
 		if Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			if distance > 5:
+				play_dash_sound()
 				dash_direction = direction.normalized()
 				is_dashing = true
 				dash_timer = dash_duration
@@ -84,7 +122,7 @@ func _process(delta: float) -> void:
 		else:
 			velocity = Vector2.ZERO
 			change_state(IDLE)
-
+	
 	move_and_slide()
 
 	# Flip
@@ -113,6 +151,7 @@ func flip_check():
 		$AnimatedSprite2D.flip_h = true
 
 func hit(damage):
+	play_hit_sound()
 	hp = max(hp - damage, 0.0)
 	if hp == 0.0:
 		die()
@@ -120,7 +159,8 @@ func hit(damage):
 func apply_nutrition(amount: float) -> void:
 	if is_dead or amount <= 0.0:
 		return
-
+	
+	play_eat_sound()
 	var heal_amount = min(amount, 100.0 - hp)
 	hp += heal_amount
 	amount -= heal_amount
@@ -129,6 +169,7 @@ func apply_nutrition(amount: float) -> void:
 		hunger = min(hunger + amount, 100.0)
 
 func die() -> void:
+	play_death_sound()
 	if is_dead:
 		return
 	is_dead = true

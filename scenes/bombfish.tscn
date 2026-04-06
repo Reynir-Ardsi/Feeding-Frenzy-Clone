@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://blgvltsnsu1aa" path="res://scripts/bombfish.gd" id="1_gnof7"]
 [ext_resource type="Texture2D" uid="uid://bswpsloc0m2nf" path="res://assets/Fish Sprites/Bombfish/Idle.png" id="2_gnof7"]
 [ext_resource type="Texture2D" uid="uid://clwd76ydvp4eg" path="res://assets/Fish Sprites/Bombfish/Walk.png" id="3_wic0w"]
+[ext_resource type="AudioStream" uid="uid://bub84c4v5sdnq" path="res://assets/sfx/explosion.mp3" id="5_wic0w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cfjqx"]
 atlas = ExtResource("1_0pekf")
@@ -139,5 +140,8 @@ frame_progress = 0.6092422
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1128620420]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_0pekf")
+
+[node name="Explosion" type="AudioStreamPlayer" parent="." unique_id=926009772]
+stream = ExtResource("5_wic0w")
 
 [connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]

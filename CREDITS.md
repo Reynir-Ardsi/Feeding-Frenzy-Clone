@@ -23,3 +23,8 @@
 ### UI/UX Elements
 - **Basic Pixel Health Bar and Scroll Bar**
   - Source: https://bdragon1727.itch.io/basic-pixel-health-bar-and-scroll-bar
+
+### Sound & Audio Effects
+- **Film Special Effects - Underwater Movement**
+  - Source: https://pixabay.com/sound-effects/film-special-effects-underwater-movement-66914/
+  - Provider: Pixabay

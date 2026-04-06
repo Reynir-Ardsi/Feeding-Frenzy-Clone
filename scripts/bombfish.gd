@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var max_state_time: float = 3.0
 @export var explosion_radius: float = 120
 @export var vertical_margin: int = 300
+@onready var explosion_sfx: AudioStreamPlayer = $Explosion
 
 enum {IDLE, SWIM, DEAD}
 var state: int = IDLE
@@ -91,7 +92,8 @@ func keep_in_vertical_bounds() -> void:
 func explode():
 	exploded = true
 	velocity = Vector2.ZERO
-
+	explosion_sfx.play()
+	
 	# Play explosion animation if exists
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.play("dead")
