@@ -21,7 +21,7 @@ var is_dashing: bool = false
 var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
 var dash_direction: Vector2 = Vector2.ZERO
-
+var can_dash: bool = true
 @onready var sfx: AudioStreamPlayer = $SFX
 
 var dash_sounds = [
@@ -78,6 +78,7 @@ func _process(delta: float) -> void:
 	# Hunger drains over time
 	hunger = max(hunger - hunger_depletion_rate * delta, 0.0)
 	if hunger <= 0.0:
+		can_dash = false
 		hp = max(hp - health_drain_rate * delta, 0.0)
 		if hp == 0.0:
 			die()
@@ -95,10 +96,10 @@ func _process(delta: float) -> void:
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
 
-	# Dash input (Shift or Right Mouse)
+	# Dash input (Space or Right Mouse)
 	if not is_dashing and dash_cooldown_timer <= 0:
 		if Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-			if distance > 5:
+			if distance > 5 and can_dash:
 				play_dash_sound()
 				dash_direction = direction.normalized()
 				is_dashing = true
