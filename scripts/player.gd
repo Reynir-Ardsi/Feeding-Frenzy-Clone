@@ -82,7 +82,10 @@ func _process(delta: float) -> void:
 		hp = max(hp - health_drain_rate * delta, 0.0)
 		if hp == 0.0:
 			die()
-
+	
+	if hunger > 0:
+		can_dash = true
+		
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position)
 	var distance = direction.length()
@@ -101,6 +104,7 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			if distance > 5 and can_dash:
 				play_dash_sound()
+				hunger -= 1
 				dash_direction = direction.normalized()
 				is_dashing = true
 				dash_timer = dash_duration
@@ -166,10 +170,17 @@ func apply_nutrition(amount: float) -> void:
 		return
 	
 	play_eat_sound()
+	
+	# if hp is full, eating will replenish hunger
+	if hp >= 100.0:
+		hunger = min(hunger + (amount * 2), 100.0)
+		return
+	
+	# otherwise, will replenish hp 
 	var heal_amount = min(amount, 100.0 - hp)
 	hp += heal_amount
 	amount -= heal_amount
-
+	
 	if amount > 0.0:
 		hunger = min(hunger + amount, 100.0)
 
