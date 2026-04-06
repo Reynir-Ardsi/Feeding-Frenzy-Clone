@@ -226,7 +226,6 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_s5ywd")
 
 [node name="fleeArea" type="Area2D" parent="." unique_id=1067146476]
-visible = false
 
 [node name="fleeShape" type="CollisionShape2D" parent="fleeArea" unique_id=2021693390]
 shape = SubResource("CircleShape2D_s5ywd")

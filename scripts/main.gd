@@ -50,6 +50,7 @@ func _on_player_died() -> void:
 	spawner.is_active = false
 	hud.set_start_button_text("Restart")
 	hud.set_start_button_enabled(true)
+	hud.show_labels()
 
 func clear_all_fish() -> void:
 	for fish in get_tree().get_nodes_in_group("all_fish"):

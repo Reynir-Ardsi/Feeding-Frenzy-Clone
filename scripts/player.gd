@@ -7,17 +7,14 @@ signal died
 @export var dash_duration: float = 0.2
 @export var dash_cooldown: float = 0.5
 
-@export var rotation_speed: float = 5.0
-@export var max_tilt_angle: float = 45.0
-
 var hp: float
 var hunger: float = 100.0
-var hunger_depletion_rate: float = 5.0
-var health_drain_rate: float = 6.0
+var hunger_depletion_rate: float = 6.0
+var health_drain_rate: float = 3 .0
 var is_dead: bool = false
 var game_active: bool = false
 
-enum {IDLE, SWIM, BITE, SWIMUP, SWIMDOWN}
+enum {IDLE, SWIM, DEAD, SWIMUP, SWIMDOWN}
 var state: int = IDLE
 
 var is_dashing: bool = false
@@ -37,6 +34,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not game_active or is_dead:
 		velocity = Vector2.ZERO
+		change_state(DEAD)
 		move_and_slide()
 		return
 
@@ -97,7 +95,6 @@ func change_state(new_state: int) -> void:
 	state = new_state
 	match state:
 		IDLE:
-			rotation = 0
 			$AnimatedSprite2D.play("idle")
 		SWIM:
 			$AnimatedSprite2D.play("swim")
@@ -105,6 +102,8 @@ func change_state(new_state: int) -> void:
 			$AnimatedSprite2D.play("swim-up")
 		SWIMDOWN:
 			$AnimatedSprite2D.play("swim-down")
+		DEAD:
+			$AnimatedSprite2D.play("dead")
 
 # Flip logic
 func flip_check():
@@ -135,7 +134,7 @@ func die() -> void:
 	is_dead = true
 	game_active = false
 	velocity = Vector2.ZERO
-	$AnimatedSprite2D.play("dead")
+	change_state(DEAD)
 	emit_signal("died")
 
 func start_game() -> void:
@@ -150,6 +149,5 @@ func reset() -> void:
 	game_active = true
 	velocity = Vector2.ZERO
 	change_state(IDLE)
-	$AnimatedSprite2D.play("idle")
 	var screen_size = get_viewport_rect().size
 	global_position = screen_size / 2
