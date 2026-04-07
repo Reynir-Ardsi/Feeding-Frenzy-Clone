@@ -131,7 +131,7 @@ func change_state(new_state: int) -> void:
 			$AnimatedSprite2D.play("dead")
 			if last_attacker:
 				feed_player(last_attacker)
-			await get_tree().create_timer(0.4).timeout
+			await get_tree().create_timer(0.8).timeout
 			queue_free()
 
 # --------------------
@@ -184,6 +184,7 @@ func _on_tail_body_entered(body: Node) -> void:
 	
 	if body.is_in_group("player"):
 		target = body
+		change_state(ATTACK)
 		
 		# Damage the player
 		if body.has_method("take_damage"):

@@ -16,6 +16,7 @@ font = ExtResource("6_wrruo")
 font_size = 60
 
 [node name="HUD" type="Node2D" unique_id=1930648704]
+z_index = 10
 script = ExtResource("1_wcq4p")
 
 [node name="HPBar" type="TextureProgressBar" parent="." unique_id=2023162964]

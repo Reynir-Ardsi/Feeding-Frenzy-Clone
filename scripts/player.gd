@@ -124,7 +124,7 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			if distance > 5:
 				play_dash_sound()
-				hunger -= 1
+				hunger -= 2.5
 				dash_direction = direction.normalized()
 				is_dashing = true
 				dash_timer = dash_duration
