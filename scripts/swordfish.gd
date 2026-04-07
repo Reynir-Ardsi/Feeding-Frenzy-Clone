@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var dash_speed: float = 400
 @export var dash_duration: float = 0.3
 @export var knockback_strength: float = 200
-@export var knockback_duration: float = 0.2
+@export var knockback_duration: float = 1.0
 @export var chase_time: float = 2.0
 @export var max_hp: int = 5
 @export var vertical_margin: int = 300
@@ -68,10 +68,10 @@ func _process(delta: float) -> void:
 	
 	flip_check()
 
-	# Apply knockback
-	if knockback_timer > 0:
-		velocity = knockback_vector
-		knockback_timer -= delta
+	## Apply knockback
+	#if knockback_timer > 0:
+		#velocity = knockback_vector
+		#knockback_timer -= delta
 
 	keep_in_vertical_bounds()
 	move_and_slide()
@@ -115,6 +115,12 @@ func state_dash(delta):
 func state_hurt(delta):
 	velocity = Vector2.ZERO
 	state_timer -= delta
+	
+		# Apply knockback
+	if knockback_timer > 0:
+		velocity = knockback_vector
+		knockback_timer -= delta
+	
 	if state_timer <= 0:
 		change_state(IDLE)
 

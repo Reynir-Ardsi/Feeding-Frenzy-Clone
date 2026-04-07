@@ -3,7 +3,6 @@ extends Node2D
 @onready var player = $Player
 @onready var hud = $HUD
 @onready var spawner = $Spawner
-
 @onready var bg_music: AudioStreamPlayer
 
 var game_active: bool = false
